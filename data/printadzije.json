@@ -5,10 +5,21 @@
     "grad": "Sarajevo",
     "telefon": "+38761060784",
     "opis": "Od ideje, prototipa i 3D printa pa do serijske proizvodnje. Radimo 3D prototipove, makete, dijelove za auta, pripremu za serijsko brizganje plastike i serijsku proizvodnju na mašinama za brizganje.",
-    "printeri": ["Creality K1", "Creality K1 Max"],
-    "plastika": [["PLA", "Bijela", 1000]],
+    "printeri": [
+      "Creality K1",
+      "Creality K1 Max"
+    ],
+    "plastika": [
+      [
+        "PLA",
+        "Bijela",
+        1000
+      ]
+    ],
     "prodaje": [],
     "izdvojen": false,
-    "azurirano": "2026-11-08"
+    "azurirano": "2026-11-08",
+    "email": "info@yupa3d.com",
+    "logo": "/favicon.png"
   }
 ]

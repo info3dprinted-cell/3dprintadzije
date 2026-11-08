@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Print – sve 3D printadžije BiH na jednom mjestu</title>
+<meta name="description" content="Uskoro: platforma koja povezuje klijente, 3D printadžije i prodavce plastike, printera i dijelova u BiH. Prijavi se besplatno.">
+<link rel="icon" href="data:image/png;base64,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">
+<style>
+:root{--bg:#f4f5f8;--ink:#141824;--muted:#667085;--line:#e4e7ec;--navy:#1d1e1d;--acc:#f4a04a;--acc2:#fff3e6;--accd:#b8650f;--ok:#12a150;--okbg:#e7f7ee;--bad:#b42318;--badbg:#fdecea}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5}
+a{color:var(--accd)}
+header{background:var(--navy);color:#fff}
+.top{max-width:980px;margin:auto;display:flex;align-items:center;gap:10px;padding:12px 16px}
+.top img{width:40px;height:40px;border-radius:10px}
+.top b{font-size:19px}.top small{display:block;font-size:11px;opacity:.65;margin-top:-3px}
+.soon{margin-left:auto;background:var(--acc);color:var(--navy);font-weight:800;font-size:12px;padding:5px 10px;border-radius:999px;letter-spacing:.3px}
+.hero{background:var(--navy);color:#fff;padding:26px 16px 40px}
+.hero .in{max-width:980px;margin:auto}
+.hero h1{font-size:32px;line-height:1.15;margin:6px 0 12px;letter-spacing:-.6px}
+.hero h1 span{color:var(--acc)}
+.hero p{color:#c9cdd3;font-size:17px;margin:0 0 20px;max-width:620px}
+main{max-width:980px;margin:auto;padding:0 16px}
+section{margin:30px 0}
+h2{font-size:24px;letter-spacing:-.4px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;background:var(--acc);color:var(--navy)}
+.btn.sec{background:rgba(255,255,255,.12);color:#fff}
+.btn.lt{background:#eef1f6;color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+.card .ic{font-size:30px}
+.card h3{margin:6px 0 6px;font-size:18px}
+.card ul{margin:0;padding-left:18px;color:#344054;font-size:15px}
+.card li{margin:4px 0}
+.perks{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.perk{background:var(--acc2);border-radius:14px;padding:14px;font-size:15px}
+.perk b{display:block;font-size:16px}
+/* wizard */
+#reg{scroll-margin-top:10px}
+.wiz{background:#fff;border:2px solid var(--acc);border-radius:18px;padding:18px}
+.steps{display:flex;gap:6px;margin-bottom:14px}
+.steps span{flex:1;height:5px;border-radius:9px;background:#dfe3ea}
+.steps span.on{background:var(--acc)}
+.big{display:flex;gap:12px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:13px;background:#fff;cursor:pointer;margin-bottom:10px}
+.big.on{border-color:var(--acc);background:var(--acc2)}
+.big .ic{font-size:26px;width:40px;text-align:center}
+.big b{display:block}
+.big span{font-size:13px;color:var(--muted)}
+label{font-size:13px;font-weight:600;color:#344054;display:block;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d0d5dd;border-radius:10px;font:inherit;background:#fff}
+textarea{min-height:70px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);border-color:transparent}
+.g2{display:grid;gap:0 10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:10px 0;font-weight:400;color:var(--ink)}
+.chk input{width:auto;margin-top:4px;flex:none}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600;background:#eef1f6;margin:3px 4px 3px 0}
+.pill a{color:var(--bad);text-decoration:none;margin-left:4px}
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.err{background:var(--badbg);color:var(--bad);border-radius:10px;padding:10px 12px;font-size:14px;margin-top:10px}
+.okbox{background:var(--okbg);color:#05603a;border-radius:14px;padding:18px;text-align:center}
+.hp{position:absolute;left:-9999px}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:8px}
+summary{font-weight:700;cursor:pointer}
+details p{margin:8px 0 0;color:#344054}
+footer{background:var(--navy);color:#c9cdd3;font-size:14px;padding:26px 16px 40px;margin-top:40px}
+footer .in{max-width:980px;margin:auto}
+footer a{color:var(--acc)}
+footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padding:4px 8px}
+/* pravni dokumenti */
+.doc{position:fixed;inset:0;background:#fff;z-index:50;overflow:auto;display:none}
+.doc.on{display:block}
+.doc .in{max-width:760px;margin:auto;padding:16px 18px 60px}
+.doc h1{font-size:26px;margin:10px 0 2px}
+.doc h3{margin:22px 0 6px;font-size:17px}
+.doc p,.doc li{color:#2b3140;font-size:15px}
+.doc .close{position:sticky;top:0;background:#fff;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+@media(max-width:600px){.hero h1{font-size:27px}}
+</style>
+</head>
+<body>
+<header><div class="top"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAKdElEQVR42u2de4zcVRXHP+f+fjOz79m2Ftt9tSjPgtSaIigJD2kwxmdUQgL/SERNNNEEQ2JITIwx/ENIMKIhBAUkgIoxghawUtxSWh5Loa/ty7bsY2a33c7uzv529jGve/1jaC1Qyuxud3Zn5nyT+WeemXs/59x7z7n3XGFmktbVrVeYvPk0wnXAehyrEJpQLYicc8cE2Y+hC8tm51x3LBaLF92hxb6xo6Njg8XeJsgGEWl798e1BxaJRARX6JA3HK4Ty8OxWOzwnAFobW1dK57cLU6+JEYatdMXPwgAzrq4E/egJ94Dvb29yQ97v3eW7/La29u/L0YeMWI+C0S0ecuJBJqMmC845z7X1NjUHQTBQNEeYOXKlXVeyPu5ID8VkZBafZkPDdbFrLE/iPfGn/toD3AdfnPQ/JAR86OP8BCqcoHASJM4+UpDtGHv+Nj4obMC0G7bf2aMuVOtvuI8QQ2ODdFo9PUgCPrOOAR0dHR82+GeAMLaZJW6bmQndXy5/2D/wHs8QHt7ewvCH0XkPG2lih4OVpCjORgLngUwp7mIu4wxF6nrr/jAEc66mzs6Oq455QHaPtl2AZZfA/XaRJUvY0zEYhvaWtueLXiALLcCH1Prrx4vIE6un5ycvNS0tLQsEyc3yMkQkqpa5gLn5XK5rxsJywUOt06tv/q8AMJNRpysMcZEtUmqUuuNWLlM26Fqg0MRA7RqU1TxigCw2gzVDYBKAVApACoFQKUAqBQAlQKgUgBUCoBKAVApAKqKlk9Jcs+Qsw4RwUjxn8k7h2/AlPFelZx1OAfGSFEHMR1grUMEfCPlD4ADjMD61VHWrWpiaX2IYg4sTmXz7BtI8eqRgOlMjnJkIG/hE8vruXJ1I+3LaosCOWcd/YlJ3uwdp2d4Em+e/7g//43guH7Ncu6/uYUl9ZDPU2SuGqxbysPbRrhnYz+Cnclh5gWXtY6WJXX89tbVrG0NkbWuYA1F0B/yonT1LuO7jx5lZGJ6Xj2gmW/r94zha2uX0lwHUxlHJl/cI51zIJab1jTSvqyeXL7MrN/BZ1ZFuXSFz0TGkskV+d9zjsmMZc0Kn8vbm8jbMp8EGoGmWjOrDnS2YDL1YYOj/PYs+p6Qs7OdO0DIk8pYBcx1v6kr242XC/t5XQaqFACVAqBSAFQKgEoBUCkAKgVApQCoFACVAqBSAFQKgAKgUgBUCoBKAVApACoFQKUAqBQAlQKgUgBUCoBKAVApACoFQKUAqBQAlQKgUgBUCgAlve2UqqwPQKVUCZuLPFOoDJTNOzxTPihk845l9R6yyAH2F3uVrZaoxx3XLOW+ySyjk7myKRN15fn13LK+CSNgnQIwa9efyzu+ua6Ji1fWMjSWXfTl4gpl8YSLVkRY2WjIzaH3pdwBEArl0uKjWYyE51Rs8fKVIbzWEJTREJCbo+lnS+A65t0DWAfxZAaR+jk3aLbMSsXNtb5iX2KK+S4UZkpRKnVXX5J0TtDbiYsvrRdLWgaTk8g8l4uddwB8A4eGMrzVlybsaecWo4hneGZnwFQ2P+/zADP/yzjhRJBm84GAvFUv8FEKGeHIcJ7NB0ZLsn40pamY6Xjy9SF29KeJ+ErA2SbNIsITr49wYDCFXymVQo0Iqeksv/znIH0jlpAOBWd2/b7hmd0pHn9tCN9UWCjY94SdfUnu/vsAsaRTT/C+yugRX9h6JM09z8WZTGdKdkdCSXMBIc/w0r4Ed/01zsHjOWrDCoEn4BvDn3ek+MmfehhMTuGb0nWLF41GvyUinyrVGOd7Qk9iiq7eaeojYS5YHiYSkrJJnpwri/c9IeQJx8Yd9/37BL95aZBgKl2ScX/BADh9ZTAUpNl8IMmueI6PN4WpDXlEa71T8wNXgWt73xMivpC3hngyx593pPjFP+K8tH8E6yyeEaomFxDyBGcdnftPsP3QKJe3NXLthXVcsrKeC8+roW2JR0MYHG7WniFvmXM4VqSwNJvtkCxSuCvoxITjaCJHb2Kat/tTvHxogncSKYyU5l6ARZkMEinMCyyWt3pH6XonSbQuzPIGn2itEPagoSbM0oaaGV8Y4Rvhq2ujfP788KyzcSIwmYHHXxvjv0NTmBlaqHOOobEpMvk8E2kYmcwzMpEjNZ0l4gthTzQbeHJuEPIMIQ+mMhl6EhlOXrEjTMzK+qyDf3UPc/8t53PjxTWFK2hmqLAn/OrFBL/fOoARN+tNIe5dmMy7j7qw0XTw2WIG5hzFCYaCNHtjAV9cUzsrAESEPf1JwC2om9Y9gcw+OZ+vlqVFpW4JOxexdXwhkp+5BXt+8RddKgCLUJGQ8Hx3ir7kMXKzuH/NGEPPSJaQUQDK888ZoXsgxZ7Y+Jy+w1SwG/CrIdTqeRpy1oMhqur0AHlb2Jwps9zhG/ZMRW9iqWgAMjnL9Zcs4dqLlpCZRRzAN8Ljrw4SG51ekDi9AsBct2bDlatq+eENzUynZ74KqAkZNu0dome4cEJJAaBMo0HOkZ9FQsA5V0431usk8EwrgL5Ry2TazTigE/ZhdzzL4Fi+Yq2/4gGIhISNu5NsPzo9o6WgCGRzwt/eShIfTZdsf54CwLlONwupdJqHXk6QzbsZhY93xtM81TWEMY5KHgdM5ecCDNuPjPJU1ziRIk15Og+/60wQTJZuc6YCMI+bTvJ5y1+6EvSN5j4yrVvjC8/tmeDlg8OEfKORwIrwAp6wq3+cp3eMndWd+x4MBJZHt50gnbOIhoIrR2EPHts2xMGh7IcGdcQJT+9I8nZ/UPRwoQCU0YRwZCLNg1sSZ1wS+gZ6R/M8tv0EvjhNBlWifA+e3zPMxr2T1JyW5Bcgb4UHOhMcH5uu6PRvVQNgRJhM53jqjWESE//fhx/xhVeOTvPC7uGKDvpoOhgI+8LWQ6M8uyuF7xWihclpxx9eSZCcylRs0kcBeM98wPHIK8cZSFpqIoYXulNsPTS6KPbpl1oLcjRsMQwFyakMhxOWnmHHQ1sGmUhnq2rsr6Js4IdD0Lk/Qef+YQRXlZ1f1QCcPKRauop8OgdQLVIAFIIqByCuzVDFADjjurUZqlPOubRx4vZZa8e0OapSbxqXcYcFeVu0giPVFQwTcGwyAwMDw07cf5zTc9RV5f6tG/J9/5nCCiDEk0BCvUD1WL8T11lXV7ffAwhGg5HmaHOLGLlaHUFVTP4CI+bHhw8f7jGnPXmvtfaQeoHKt34x8nRfX982gFPVeIIgGG+ONh9zuG+c/ryq4g5K7aSW7wXDwTjv7+ixsbF90aaoFSM3aktV4Ljv3JAgt/cf7T8V+/mApQfrglcbRxtXGzFrtdkqqvPHrNjvxPvjL57+2gddfS+2vq5+kxjxBLlKRHQ4KPfOty5mjb19oG9g4/tfP2PnplKpbDAWdEaboseBq2SuNz6pFtLytzjn7oj3x7ec6T1ns24XBMGOxobGTQhLxUmHGIlos5bBLL8Q5Ys73L2eeHf29/cfnfPdhB0dHRss9jZBNohI26nz86rFZO0OeMPhOrE8HIvFDp/ryymldXXrFeLkMkFuwHE1jg6EJu2CBQvqHBNkP4YuLJudc92xWKzoFP//APl9NF5UoykSAAAAAElFTkSuQmCC" alt="YUPA 3D"><div><b>3D Print</b><small>by YUPA 3D Engineering</small></div><span class="soon">USKORO</span></div></header>
+
+<div class="hero"><div class="in">
+  <h1>Sve <span>3D printadžije</span> BiH na jednom mjestu</h1>
+  <p>Ubaci STL i odmah vidi ko ga danas može isprintati: koji printer ima dovoljnu radnu plohu, koja plastika i boja je na stanju. Plus oglasi za plastiku, printere i rezervne dijelove i forum za sve koji printaju.</p>
+  <div class="row"><a class="btn" href="#reg" onclick="go()">Prijavi se besplatno</a><a class="btn sec" href="#kako">Kako radi</a></div>
+</div></div>
+
+<main>
+<section id="kako">
+  <h2>Kako radi</h2>
+  <p class="sub">Jedan nalog – možeš biti i klijent, i printadžija, i prodavač.</p>
+  <div class="cards">
+    <div class="card"><div class="ic">🔍</div><h3>Trebaš nešto isprintati</h3><ul>
+      <li>Ubaciš STL – dimenzije i težina se računaju sami</li>
+      <li>Vidiš samo printadžije koji to <b>danas</b> mogu napraviti</li>
+      <li>Pošalješ fajl ili se javiš na Viber / WhatsApp</li>
+      <li>Za klijente je uvijek besplatno</li></ul></div>
+    <div class="card"><div class="ic">🖨️</div><h3>Printaš za druge</h3><ul>
+      <li>Dodaš svoje printere – radna ploha se upisuje sama</li>
+      <li>Upišeš plastiku koju imaš (materijal, boja, grami)</li>
+      <li>Klijenti te nalaze kad traže baš ono što možeš</li>
+      <li>Upiti stižu direktno tebi – bez posrednika u cijeni</li></ul></div>
+    <div class="card"><div class="ic">🛒</div><h3>Prodaješ plastiku ili opremu</h3><ul>
+      <li>Odjeli: Filament, Resin, Printeri i oprema, Dijelovi</li>
+      <li>Kupci te kontaktiraju direktno</li>
+      <li>Printadžija može prodavati na istom profilu</li>
+      <li>Za prodavnice: neograničen broj oglasa</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>Prijavi se prije otvaranja</h2>
+  <div class="perks">
+    <div class="perk"><b>🎉 Besplatno</b>U fazi otvaranja profil i oglasi su besplatni.</div>
+    <div class="perk"><b>🚀 Od prvog dana</b>Tvoj profil spremamo unaprijed – vidljiv si čim otvorimo.</div>
+    <div class="perk"><b>🪙 10 tokena na poklon</b>Za izdvajanje na vrhu pretrage nakon otvaranja.</div>
+    <div class="perk"><b>💬 Tvoje mišljenje</b>Prvi korisnici odlučuju šta još dodajemo.</div>
+  </div>
+</section>
+
+<section id="reg">
+  <div class="wiz" id="wiz"></div>
+</section>
+
+<section>
+  <h2>Česta pitanja</h2>
+  <details><summary>Koliko košta?</summary><p>Za klijente je uvijek besplatno. Printadžijama i prodavcima su profil i oglasi besplatni u fazi otvaranja. Ako kasnije uvedemo plaćene usluge (npr. izdvajanje oglasa), bit će jasno najavljene unaprijed i neće biti obavezne.</p></details>
+  <details><summary>Kada se otvara?</summary><p>Uskoro. Svi koji se prijave dobiće obavijest na email ili Viber čim otvorimo.</p></details>
+  <details><summary>Ko vidi moje podatke?</summary><p>Dok platforma ne počne s radom, tvoje podatke vidimo samo mi. Kad otvorimo, profil postaje javan tek kad ga ti potvrdiš. Detalji su u <a href="#privatnost">Politici privatnosti</a>.</p></details>
+  <details><summary>Da li 3D Print uzima procenat od posla ili prodaje?</summary><p>Ne. Klijent i printadžija, odnosno kupac i prodavač, dogovaraju se direktno. 3D Print je oglasna platforma i ne učestvuje u plaćanju robe i usluga.</p></details>
+  <details><summary>Ko stoji iza 3D Print?</summary><p>YUPA 3D Engineering iz Sarajeva – firma koja se bavi 3D printanjem, skeniranjem i modeliranjem.</p></details>
+</section>
+</main>
+
+<footer><div class="in">
+  <img src="data:image/png;base64,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" alt="YUPA 3D Engineering"><br>
+  3D Print – projekat obrta YUPA INŽENJERING, Aleja Lipa 51, 71000 Sarajevo<br>
+  Kontakt: <a href="mailto:info.3dprinted@gmail.com">info.3dprinted@gmail.com</a> · 061 060 784 (Viber / WhatsApp)<br><br>
+  <a href="#uslovi">Uslovi korištenja</a> · <a href="#privatnost">Politika privatnosti</a><br><br>
+  © 2026 YUPA INŽENJERING
+</div></footer>
+
+<!-- ================= USLOVI KORIŠTENJA ================= -->
+<div class="doc" id="uslovi"><div class="in">
+<div class="close"><b>Uslovi korištenja</b><a class="btn lt" href="#" onclick="closeDoc();return false">Zatvori ✕</a></div>
+<h1>Uslovi korištenja platforme 3D Print</h1>
+<p><i>Verzija 1.0 · važi od 8. novembra 2026.</i></p>
+
+<h3>1. Ko smo</h3>
+<p>Platformu 3D Print (u daljem tekstu: „Platforma“) vodi Amar Borić, vlasnik obrta YUPA INŽENJERING, Aleja Lipa 51, 71000 Sarajevo, Bosna i Hercegovina (u daljem tekstu: „mi“). Kontakt: info.3dprinted@gmail.com.</p>
+
+<h3>2. Šta je 3D Print</h3>
+<p>3D Print je oglasna platforma koja povezuje osobe kojima treba 3D print („klijenti“), osobe i firme koje pružaju usluge 3D printanja („printadžije“) i osobe i firme koje prodaju plastiku, printere, opremu i dijelove („prodavci“).</p>
+<p>Mi <b>ne pružamo usluge printanja i ne prodajemo robu</b> putem Platforme, ne učestvujemo u dogovoru, plaćanju ni isporuci između korisnika i nismo strana u njihovom ugovoru. Svaki dogovor zaključuju korisnici direktno, na vlastitu odgovornost.</p>
+
+<h3>3. Faza prijava (prije otvaranja)</h3>
+<p>Dok Platforma nije počela s radom, prijavom ostavljaš svoje podatke kako bismo pripremili tvoj profil i obavijestili te o otvaranju. Prijava je besplatna i ne obavezuje te ni na šta. Ne garantujemo tačan datum otvaranja. Prijavu možeš povući u bilo kojem trenutku porukom na info.3dprinted@gmail.com.</p>
+
+<h3>4. Registracija i nalog</h3>
+<ul>
+<li>Platformu mogu koristiti punoljetne osobe i registrovani poslovni subjekti.</li>
+<li>Dužan/a si unijeti tačne i aktuelne podatke i ažurirati ih. Printadžije su dužne redovno potvrđivati stanje printera i plastike.</li>
+<li>Odgovoran/na si za sigurnost svog naloga i lozinke i za sve aktivnosti na svom nalogu.</li>
+<li>Ako na Platformi nudiš usluge ili robu kao djelatnost, sam/a si odgovoran/na za registraciju te djelatnosti i za poreske obaveze.</li>
+</ul>
+
+<h3>5. Pravila za oglase, profile i forum</h3>
+<p>Zabranjeno je objavljivati, nuditi ili tražiti:</p>
+<ul>
+<li>oružje, dijelove oružja i municije, te predmete čija je izrada ili posjedovanje zabranjeno ili zahtijeva dozvolu;</li>
+<li>krivotvorene proizvode i kopije zaštićenih brendova, te tuđe 3D modele i dizajne bez dozvole autora;</li>
+<li>netačne, obmanjujuće ili lažne podatke, lažne cijene i oglase za robu koju nemaš;</li>
+<li>uvredljiv, prijeteći, diskriminatorski ili nezakonit sadržaj, kao i tuđe lične podatke bez saglasnosti;</li>
+<li>spam, reklame koje nisu vezane za 3D print i višestruke oglase za isti artikal.</li>
+</ul>
+<p>Zadržavamo pravo da bez najave uklonimo sadržaj ili ograničimo, suspendujemo ili ugasimo nalog koji krši ove uslove ili zakon.</p>
+
+<h3>6. 3D modeli i intelektualno vlasništvo</h3>
+<p>Klijent koji šalje STL ili drugi fajl potvrđuje da ima pravo na njegovo korištenje i umnožavanje. Printadžija smije koristiti primljeni fajl isključivo za izradu dogovorenog posla i ne smije ga dijeliti ni koristiti u druge svrhe bez saglasnosti klijenta. Mi ne stičemo nikakva prava na fajlove i sadržaj korisnika, osim prava da ih prikažemo i prenesemo u mjeri potrebnoj za rad Platforme.</p>
+
+<h3>7. Odgovornost</h3>
+<p>Korisnici sami odgovaraju za tačnost svojih oglasa i profila, kvalitet usluga i robe, rokove, plaćanje i isporuku. Mi ne odgovaramo za štetu nastalu iz odnosa između korisnika, niti za privremenu nedostupnost Platforme, u mjeri u kojoj to dopušta zakon. Preporučujemo da prije plaćanja provjeriš drugu stranu i dogovor potvrdiš pisano (npr. porukom).</p>
+
+<h3>8. Cijene</h3>
+<p>U fazi otvaranja korištenje Platforme je besplatno. Ako uvedemo plaćene usluge (npr. izdvajanje oglasa, pakete za prodavnice), cijene i uslovi bit će jasno objavljeni prije kupovine, a korištenje osnovnih funkcija za klijente ostaje besplatno.</p>
+
+<h3>9. Izmjene uslova i prestanak</h3>
+<p>Ove uslove možemo mijenjati; o bitnim izmjenama obavijestit ćemo registrovane korisnike emailom ili na Platformi. Nalog možeš ugasiti u bilo kojem trenutku. Možemo prestati s radom Platforme uz razumnu prethodnu obavijest.</p>
+
+<h3>10. Mjerodavno pravo</h3>
+<p>Na ove uslove primjenjuje se pravo Bosne i Hercegovine. Sporove nastojimo riješiti dogovorom; u suprotnom je nadležan stvarno nadležni sud u Sarajevu, osim ako zakon o zaštiti potrošača propisuje drugačije.</p>
+
+<h3>11. Kontakt</h3>
+<p>Pitanja, prijave nepravilnog sadržaja i zahtjevi: <a href="mailto:info.3dprinted@gmail.com">info.3dprinted@gmail.com</a>.</p>
+</div></div>
+
+<!-- ================= POLITIKA PRIVATNOSTI ================= -->
+<div class="doc" id="privatnost"><div class="in">
+<div class="close"><b>Politika privatnosti</b><a class="btn lt" href="#" onclick="closeDoc();return false">Zatvori ✕</a></div>
+<h1>Politika privatnosti</h1>
+<p><i>Verzija 1.0 · važi od 8. novembra 2026.</i></p>
+<p>Ovdje objašnjavamo koje lične podatke prikupljamo kada se prijaviš na 3D Print, zašto, s kim ih dijelimo i koja su tvoja prava, u skladu sa Zakonom o zaštiti ličnih podataka („Službeni glasnik BiH“, br. 12/25).</p>
+
+<h3>1. Kontrolor podataka</h3>
+<p>Amar Borić, obrt YUPA INŽENJERING, Aleja Lipa 51, 71000 Sarajevo, Bosna i Hercegovina. Email: info.3dprinted@gmail.com.</p>
+
+<h3>2. Koje podatke prikupljamo</h3>
+<p>Kroz prijavni formular:</p>
+<ul>
+<li>ime i prezime ili naziv radionice/firme, grad;</li>
+<li>broj telefona (Viber/WhatsApp) i email adresu;</li>
+<li>šta radiš na Platformi (tražiš printanje, printaš, prodaješ);</li>
+<li>printere koje posjeduješ, plastiku na stanju i kategorije robe koju prodaješ;</li>
+<li>napomenu, ako je sam/a upišeš, i tvoj izbor da li želiš primati novosti.</li>
+</ul>
+<p>Ova stranica ne koristi kolačiće za praćenje niti alate za analitiku.</p>
+
+<h3>3. Zašto i na kojem osnovu</h3>
+<ul>
+<li><b>Priprema profila i obavijest o otvaranju</b> – na tvoj zahtjev, kako bismo pripremili tvoj nalog prije otvaranja Platforme (radnje prije zaključenja ugovora).</li>
+<li><b>Kontakt u vezi s tvojom prijavom</b> – npr. provjera podataka ili pitanja o tvojim printerima i ponudi (isti osnov).</li>
+<li><b>Novosti o Platformi</b> – samo ako si to označio/la (saglasnost). Saglasnost možeš povući u bilo kojem trenutku, bez posljedica.</li>
+</ul>
+
+<h3>4. Ko vidi tvoje podatke</h3>
+<p>Dok Platforma ne počne s radom, tvoje podatke vidimo samo mi. Nakon otvaranja, podaci s profila (naziv, grad, broj za kontakt, printeri, plastika, oglasi) postaju javni <b>tek kada ti aktiviraš profil</b> – jer je njihova svrha da te klijenti i kupci mogu pronaći i kontaktirati.</p>
+<p>Za tehnički rad koristimo ove obrađivače:</p>
+<ul>
+<li><b>FormSubmit</b> (formsubmit.co) – prenosi podatke iz prijavnog formulara na naš email;</li>
+<li><b>Google</b> (Gmail) – čuvanje primljenih prijava u našem email sandučetu.</li>
+</ul>
+<p>Ovi pružaoci mogu obrađivati podatke i izvan Bosne i Hercegovine (npr. u SAD-u). Podatke ne prodajemo i ne ustupamo trećim licima za njihov marketing.</p>
+
+<h3>5. Koliko dugo čuvamo podatke</h3>
+<p>Podatke iz prijave čuvamo dok traje faza prijava, a ako nakon otvaranja ne aktiviraš profil – najduže 12 mjeseci od otvaranja, nakon čega ih brišemo. Ako aktiviraš profil, čuvamo ih dok imaš nalog. Na tvoj zahtjev brišemo ih ranije.</p>
+
+<h3>6. Tvoja prava</h3>
+<p>Imaš pravo da zatražiš pristup svojim podacima, ispravku, brisanje, ograničenje obrade i prenos podataka, da uložiš prigovor na obradu i da povučeš saglasnost. Zahtjev pošalji na info.3dprinted@gmail.com – odgovorit ćemo bez nepotrebnog odlaganja, najkasnije u roku od mjesec dana.</p>
+<p>Ako smatraš da obrađujemo tvoje podatke protivno zakonu, imaš pravo podnijeti pritužbu Agenciji za zaštitu ličnih podataka u Bosni i Hercegovini.</p>
+
+<h3>7. Sigurnost i maloljetnici</h3>
+<p>Podatke štitimo razumnim tehničkim i organizacijskim mjerama i pristup im imamo samo mi. Prijava je namijenjena punoljetnim osobama i poslovnim subjektima.</p>
+
+<h3>8. Izmjene</h3>
+<p>Ovu politiku ćemo ažurirati kad Platforma počne s radom i kad uvedemo nove funkcije. Važeća verzija i datum uvijek su objavljeni na ovoj stranici.</p>
+</div></div>
+
+<script>
+const FORM_EMAIL="info.3dprinted@gmail.com";
+const PRINTERS=["Creality K1","Creality K1 Max","Creality K1C","Creality K2 Plus","Creality Ender-3 V3","Creality Ender-5 Max","Bambu Lab X1 Carbon","Bambu Lab P1S","Bambu Lab P1P","Bambu Lab A1","Bambu Lab A1 mini","Bambu Lab H2D","Prusa MK4S","Prusa Core One","Prusa XL","Prusa Mini+","Elegoo Neptune 4 Pro","Elegoo Neptune 4 Max","Anycubic Kobra 3","Anycubic Kobra S1","Qidi Q1 Pro","Elegoo Saturn 4 Ultra","Elegoo Mars 5","Anycubic Photon Mono M7 Pro","Formlabs Form 4"];
+const MATS=["PLA","PETG","ABS","ASA","TPU","PA (Nylon)","PC","PLA-CF","PETG-CF","Smola standard","Smola ABS-like","Smola dental"];
+const COLORS=["Crna","Bijela","Siva","Crvena","Plava","Zelena","Žuta","Narandžasta","Providna","Drvo","Srebrena","Više boja"];
+const CITIES=["Sarajevo","Banja Luka","Tuzla","Zenica","Mostar","Bihać","Bijeljina","Brčko","Doboj","Prijedor","Travnik","Konjic","Cazin","Visoko","Gradačac","Goražde","Livno","Široki Brijeg","Trebinje","Drugi grad"];
+const ROLES={client:["🔍","Trebam nešto isprintati","Obavijesti me kad mogu slati STL printadžijama"],printer:["🖨️","Printam za druge","Pripremi mi profil printadžije"],seller:["🛒","Prodajem plastiku, printere ili dijelove","Želim objavljivati oglase"]};
+const SELLS={filament:"🧵 Filament",resin:"🧪 Resin",oprema:"🖨️ Printeri i oprema",dijelovi:"🔩 Rezervni dijelovi"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const opts=a=>a.map(x=>`<option>${esc(x)}</option>`).join("");
+let O={i:0,roles:new Set(),name:"",city:"Sarajevo",phone:"",mail:"",note:"",terms:false,news:true,printers:[],otherPrinter:"",stock:[],sells:new Set(),sent:false};
+const steps=()=>{const s=["uloga","podaci"];if(O.roles.has("printer"))s.push("printeri");if(O.roles.has("seller"))s.push("prodaja");s.push("potvrda");return s};
+function nav(back,next,label,ok=true){return `<div class="nav">${back?`<button class="btn lt" onclick="step(-1)">← Nazad</button>`:""}<button class="btn" id="nextBtn" ${ok?"":"disabled"} onclick="${next}">${label}</button></div>`}
+function draw(){
+  const s=steps(),st=s[O.i];let h="";
+  const bar=`<div class="steps">${s.map((x,k)=>`<span class="${k<=O.i?"on":""}"></span>`).join("")}</div>`;
+  if(O.sent){h=`<div class="okbox"><div style="font-size:42px">🎉</div><h2 style="color:#05603a">Hvala, ${esc(O.name)}!</h2><p style="margin:6px 0 0">Prijava je poslana. Javit ćemo ti se na <b>${esc(O.mail)}</b>${O.phone?" ili Viber":""} čim 3D Print otvori vrata.</p></div>
+    <p class="sub" style="text-align:center;margin-top:14px">Znaš još nekoga ko printa ili prodaje plastiku? Pošalji mu ovaj link. 🙌</p>`;$("wiz").innerHTML=h;return}
+  if(st==="uloga"){h=bar+`<h2>Prijava – 1 minuta</h2><p class="sub">Šta te dovodi na 3D Print? Možeš odabrati više.</p>`
+    +Object.entries(ROLES).map(([k,[ic,t,d]])=>`<div class="big ${O.roles.has(k)?"on":""}" onclick="pickRole('${k}')"><div class="ic">${ic}</div><div><b>${t}</b><span>${d}</span></div></div>`).join("")
+    +nav(false,"step(1)","Dalje →",O.roles.size>0)}
+  if(st==="podaci"){const firm=O.roles.has("printer")||O.roles.has("seller");
+    h=bar+`<h2>Tvoji podaci</h2><p class="sub">${firm?"Ovo će kasnije vidjeti klijenti i kupci na tvom profilu – tek kad ga ti aktiviraš.":"Samo da te možemo obavijestiti kad otvorimo."}</p>
+    <label>${firm?"Ime ili naziv radionice/firme":"Ime i prezime"} *</label><input id="fN" value="${esc(O.name)}" placeholder="${firm?"npr. PrintLab Tuzla":"npr. Emir Hadžić"}" autocomplete="name">
+    <div class="g2"><div><label>Grad *</label><select id="fC">${opts(CITIES)}</select></div>
+    <div><label>Broj (Viber / WhatsApp)${firm?" *":""}</label><input id="fP" type="tel" value="${esc(O.phone)}" placeholder="+387 6x xxx xxx" autocomplete="tel"></div></div>
+    <label>Email *</label><input id="fE" type="email" value="${esc(O.mail)}" placeholder="ime@primjer.ba" autocomplete="email">
+    <label>Napomena (nije obavezno)</label><textarea id="fT" placeholder="Npr. šta najčešće printaš, šta bi volio/la da platforma ima…">${esc(O.note)}</textarea>
+    <input class="hp" id="fH" tabindex="-1" autocomplete="off">
+    <div id="fErr"></div>`+nav(true,"saveData()","Dalje →")}
+  if(st==="printeri"){h=bar+`<h2>Tvoji printeri</h2><p class="sub">Dodirni modele koje imaš. Nema tvog? Upiši ga ispod.</p>
+    <div class="chips">${PRINTERS.map(n=>`<button class="${O.printers.includes(n)?"on":""}" onclick="pr('${n}')">${n}</button>`).join("")}</div>
+    <label>Drugi printeri</label><input id="fOP" value="${esc(O.otherPrinter)}" placeholder="npr. Voron 2.4 350, Artillery Sidewinder X2">
+    <label style="margin-top:16px">Plastika koju trenutno imaš (možeš i kasnije)</label>
+    <div class="g2" style="grid-template-columns:1fr 1fr 90px;gap:8px"><select id="sM">${opts(MATS)}</select><select id="sC">${opts(COLORS)}</select><input id="sG" type="number" value="1000" step="100" aria-label="grama"></div>
+    <button class="btn lt" style="margin-top:8px;padding:9px 14px" onclick="addStock()">+ Dodaj kalem</button>
+    <div style="margin-top:8px">${O.stock.map((s,i)=>`<span class="pill">${esc(s[0])} ${esc(s[1])} · ${s[2]} g<a href="#" onclick="O.stock.splice(${i},1);draw();return false">×</a></span>`).join("")}</div>`
+    +nav(true,"keepOP();step(1)","Dalje →")}
+  if(st==="prodaja"){h=bar+`<h2>Šta prodaješ?</h2><p class="sub">Da te kupci lakše nađu u odjelima.</p>
+    <div class="chips">${Object.entries(SELLS).map(([k,n])=>`<button class="${O.sells.has(k)?"on":""}" onclick="sell('${k}')">${n}</button>`).join("")}</div>`+nav(true,"step(1)","Dalje →")}
+  if(st==="potvrda"){const r=[...O.roles].map(k=>ROLES[k][1]).join(", ");
+    h=bar+`<h2>Provjeri i pošalji</h2>
+    <div style="background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px">
+      <b>${esc(O.name)}</b> · ${esc(O.city)}<br>${esc(O.mail)}${O.phone?" · "+esc(O.phone):""}<br><span style="color:var(--muted)">${esc(r)}</span>
+      ${O.printers.length||O.otherPrinter?`<br>🖨️ ${esc([...O.printers,O.otherPrinter].filter(Boolean).join(", "))}`:""}
+      ${O.stock.length?`<br>🧵 ${esc(O.stock.map(s=>s.join(" ")+" g").join(", "))}`:""}
+      ${O.sells.size?`<br>🛒 ${esc([...O.sells].map(k=>SELLS[k].slice(2).trim()).join(", "))}`:""}
+    </div>
+    <label class="chk"><input type="checkbox" id="fTerms" ${O.terms?"checked":""}><span>Prihvatam <a href="#uslovi">Uslove korištenja</a> i potvrđujem da sam pročitao/la <a href="#privatnost">Politiku privatnosti</a>. *</span></label>
+    <label class="chk"><input type="checkbox" id="fNews" ${O.news?"checked":""}><span>Želim primati novosti o 3D Print na email (možeš se odjaviti bilo kada).</span></label>
+    <div id="sErr"></div>`+nav(true,"send()","Pošalji prijavu ✓")}
+  $("wiz").innerHTML=h;
+  if(st==="podaci")$("fC").value=O.city;
+}
+function go(){O.i=0;draw()}
+function pickRole(k){O.roles.has(k)?O.roles.delete(k):O.roles.add(k);draw()}
+function pr(n){const i=O.printers.indexOf(n);i<0?O.printers.push(n):O.printers.splice(i,1);keepOP();draw()}
+function keepOP(){if($("fOP"))O.otherPrinter=$("fOP").value.trim()}
+function sell(k){O.sells.has(k)?O.sells.delete(k):O.sells.add(k);draw()}
+function addStock(){keepOP();O.stock.push([$("sM").value,$("sC").value,+$("sG").value||0]);draw()}
+function step(d){O.i=Math.max(0,Math.min(steps().length-1,O.i+d));draw();$("reg").scrollIntoView({behavior:"smooth"})}
+function saveData(){
+  O.name=$("fN").value.trim();O.city=$("fC").value;O.phone=$("fP").value.trim();O.mail=$("fE").value.trim();O.note=$("fT").value.trim();O.hp=$("fH").value;
+  const firm=O.roles.has("printer")||O.roles.has("seller"),e=[];
+  if(O.name.length<2)e.push("upiši ime");
+  if(!/^\S+@\S+\.\S+$/.test(O.mail))e.push("upiši ispravan email");
+  const d=O.phone.replace(/\D/g,"");if((firm&&d.length<8)||(O.phone&&d.length<8))e.push("upiši ispravan broj telefona");
+  if(e.length){$("fErr").innerHTML=`<div class="err">Provjeri: ${e.join(", ")}.</div>`;return}
+  step(1);
+}
+async function send(){
+  O.terms=$("fTerms").checked;O.news=$("fNews").checked;
+  if(!O.terms){$("sErr").innerHTML=`<div class="err">Za slanje prijave potrebno je prihvatiti Uslove korištenja.</div>`;return}
+  const b=$("nextBtn");b.disabled=true;b.textContent="Šaljem…";
+  const roles=[...O.roles].map(k=>ROLES[k][1]).join(", ");
+  const data={
+    _subject:`Nova prijava – 3D Print: ${O.name} (${O.city})`,
+    _template:"table",_captcha:"false",_replyto:O.mail,_honey:O.hp||"",
+    "Ime / naziv":O.name,"Grad":O.city,"Email":O.mail,"Telefon (Viber/WhatsApp)":O.phone||"—",
+    "Uloge":roles,
+    "Printeri":[...O.printers,O.otherPrinter].filter(Boolean).join(", ")||"—",
+    "Plastika na stanju":O.stock.map(s=>`${s[0]} ${s[1]} ${s[2]} g`).join(", ")||"—",
+    "Prodaje":[...O.sells].map(k=>SELLS[k].slice(2).trim()).join(", ")||"—",
+    "Napomena":O.note||"—",
+    "Novosti na email":O.news?"DA":"NE",
+    "Prihvatio uslove i politiku privatnosti":"DA (verzija 1.0)",
+    "Vrijeme prijave":new Date().toLocaleString("bs-BA",{timeZone:"Europe/Sarajevo"})
+  };
+  try{
+    const r=await fetch("https://formsubmit.co/ajax/"+FORM_EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    O.sent=true;draw();$("reg").scrollIntoView({behavior:"smooth"});
+  }catch(err){
+    b.disabled=false;b.textContent="Pokušaj ponovo";
+    $("sErr").innerHTML=`<div class="err">Slanje trenutno nije uspjelo. Pokušaj ponovo za minutu ili nam se javi direktno na <b>${FORM_EMAIL}</b> ili Viber 061 060 784.</div>`;
+  }
+}
+/* pravni dokumenti preko #uslovi / #privatnost */
+let lastScroll=0;
+function route(){const h=location.hash.slice(1);["uslovi","privatnost"].forEach(id=>$(id).classList.toggle("on",h===id));
+  if(h==="uslovi"||h==="privatnost"){$(h).scrollTop=0}}
+let inPage=false;
+function closeDoc(){if(inPage)history.back();else{location.hash="kako"}}
+window.addEventListener("hashchange",()=>{inPage=true;route()});route();draw();
+</script>
+</body>
+</html>

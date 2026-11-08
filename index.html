@@ -247,10 +247,10 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
 <h3>2. Klijenti koji pretražuju</h3>
 <p>Pretraga ne traži registraciju. STL fajl koji ubaciš obrađuje se samo u tvom pregledniku i ne šalje se nama. Ova stranica ne koristi kolačiće za praćenje niti alate za analitiku.</p>
 <h3>3. Printadžije i prodavci (profili i oglasi)</h3>
-<p>Kroz formulare prikupljamo: ime i prezime ili naziv, grad, broj telefona (Viber/WhatsApp), email, logo, fotografije artikala, printere, plastiku na stanju, opis, kategorije i podatke iz oglasa, te tvoj izbor u vezi s novostima.</p>
+<p>Kroz formulare prikupljamo: ime i prezime ili naziv, grad, broj telefona (Viber/WhatsApp), email, web stranicu ili društvene mreže, logo, fotografije artikala, printere, plastiku na stanju, opis, kategorije i podatke iz oglasa, te tvoj izbor u vezi s novostima.</p>
 <ul>
 <li><b>Svrha i osnov:</b> objava tvog profila i oglasa na tvoj zahtjev (izvršenje usluge koju tražiš), provjera prijave i kontakt u vezi s njom; slanje novosti samo uz tvoju saglasnost, koju možeš povući bilo kada.</li>
-<li><b>Šta je javno na profilu printadžije:</b> naziv, logo, grad, broj telefona, email, opis, printeri, plastika i oglasi – jer je svrha da te klijenti i kupci mogu pronaći i kontaktirati. U listi su vidljivi samo naziv, logo i grad; ostalo je na stranici profila.</li>
+<li><b>Šta je javno na profilu printadžije:</b> naziv, logo, grad, broj telefona, email, web stranica (ako je navedeš), opis, printeri, plastika i oglasi – jer je svrha da te klijenti i kupci mogu pronaći i kontaktirati. U listi su vidljivi samo naziv, logo i grad; ostalo je na stranici profila.</li>
 <li><b>Šta je javno u oglasu:</b> naslov, cijena, opis, fotografije, ime prodavača, grad i broj telefona. Email iz oglasa se ne objavljuje.</li>
 </ul>
 <h3>4. Obrađivači</h3>
@@ -304,6 +304,8 @@ const fmtDate=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s||"");return m?`${+m[
 const contact=p=>`<a class="btn sm vb" href="viber://chat?number=%2B${dig(p.telefon)}">Viber</a><a class="btn sm wa" href="https://wa.me/${dig(p.telefon)}" target="_blank" rel="noopener">WhatsApp</a><a class="btn sm lt" href="tel:+${dig(p.telefon)}">📞 ${esc(p.telefon)}</a>`;
 let P=[],A=[];
 const avatar=(p,big)=>`<div class="av${big?" big":""}">${p.logo?`<img src="${esc(p.logo)}" alt="${esc(p.naziv)} logo" loading="lazy">`:esc(initials(p.naziv))}</div>`;
+const webUrl=u=>{u=String(u||"").trim();if(!u)return "";if(!/^https?:\/\//i.test(u))u="https://"+u;try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:""}catch{return ""}};
+const webLabel=u=>u.replace(/^https?:\/\//i,"").replace(/^www\./i,"").replace(/\/$/,"");
 const adsOf=p=>A.filter(a=>a.profil===p.id);
 
 /* ---------- podaci ---------- */
@@ -362,7 +364,7 @@ function profilePage(id){const p=P.find(x=>x.id===id);
   <div class="card"><div class="ph">${avatar(p,true)}<div><h1>${esc(p.naziv)}</h1><div class="meta">📍 ${esc(p.grad)}${p.azurirano?` · stanje ažurirano ${fmtDate(p.azurirano)}`:""}</div>
     <div>${p.izdvojen?'<span class="pill gold">⭐ IZDVOJENO</span>':""}<span class="pill ok">✓ provjeren profil</span></div></div></div>
     ${p.opis?`<p style="margin:12px 0 0;color:#344054">${esc(p.opis)}</p>`:""}</div>
-  <div class="card"><h2>📞 Kontakt</h2><div class="acts" style="margin-top:0">${contact(p)}${p.email?`<a class="btn sm lt" href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`:""}</div>
+  <div class="card"><h2>📞 Kontakt</h2><div class="acts" style="margin-top:0">${contact(p)}${p.email?`<a class="btn sm lt" href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`:""}${webUrl(p.web)?`<a class="btn sm lt" href="${esc(webUrl(p.web))}" target="_blank" rel="noopener nofollow">🌐 ${esc(webLabel(webUrl(p.web)))}</a>`:""}</div>
     <div class="meta" style="margin-top:8px">💡 STL fajl pošalji direktno preko Vibera, WhatsAppa ili emaila i dogovori cijenu i rok.</div></div>
   ${p.printeri.length?`<div class="card"><h2>🖨️ Printeri</h2><div class="pr" style="margin-top:0">${pr}</div></div>`:""}
   ${p.printeri.length?`<div class="card"><h2>🧵 Plastika na stanju</h2>${st}</div>`:""}
@@ -436,7 +438,7 @@ async function uploadImage(file,max=1280){
 const upTile=(src,onDel)=>`<div class="u">${src?`<img src="${esc(src)}" alt="">`:"šaljem…"}${onDel?`<button type="button" onclick="${onDel}" aria-label="Ukloni">×</button>`:""}</div>`;
 
 /* ---------- prijava printadžije (wizard) ---------- */
-let O={i:0,roles:new Set(),name:"",city:"Sarajevo",phone:"",mail:"",note:"",logo:"",logoBusy:false,printers:[],otherPrinter:"",stock:[],sells:new Set(),sent:false};
+let O={i:0,roles:new Set(),name:"",city:"Sarajevo",phone:"",mail:"",web:"",note:"",logo:"",logoBusy:false,printers:[],otherPrinter:"",stock:[],sells:new Set(),sent:false};
 const SELLS={filament:"🧵 Filament",resin:"🧪 Resin",oprema:"🖨️ Printeri i oprema",dijelovi:"🔩 Rezervni dijelovi"};
 const wSteps=()=>{const s=["uloga","podaci"];if(O.roles.has("printer"))s.push("printeri");if(O.roles.has("seller"))s.push("prodaja");s.push("potvrda");return s};
 const wNav=(back,next,label,ok=true)=>`<div class="nav">${back?`<button class="btn lt" onclick="wStep(-1)">← Nazad</button>`:""}<button class="btn" id="nextBtn" ${ok?"":"disabled"} onclick="${next}">${label}</button></div>`;
@@ -447,6 +449,7 @@ function drawWiz(){const s=wSteps(),st=s[O.i];let h="";const bar=`<div class="st
     <label>Ime ili naziv radionice/firme *</label><input id="fN" value="${esc(O.name)}" placeholder="npr. PrintLab Tuzla">
     <div class="g2"><div><label>Grad *</label><select id="fC">${opts(CITIES)}</select></div><div><label>Broj (Viber / WhatsApp) *</label><input id="fP" type="tel" value="${esc(O.phone)}" placeholder="+387 6x xxx xxx"></div></div>
     <label>Email * – bit će vidljiv na tvom profilu</label><input id="fE" type="email" value="${esc(O.mail)}" placeholder="ime@primjer.ba">
+    <label>Website, Instagram ili Facebook stranica (nije obavezno)</label><input id="fW" type="url" inputmode="url" value="${esc(O.web)}" placeholder="npr. mojaradionica.ba ili instagram.com/mojaradionica">
     <label>Logo (nije obavezno)</label>
     <div class="row"><label class="upbtn" style="margin:0">📷 ${O.logo?"Promijeni logo":"Dodaj logo"}<input type="file" accept="image/*" class="hide" onchange="wLogo(this)"></label>
       <div class="ups" style="margin:0" id="logoPrev">${O.logoBusy?upTile(""):O.logo?upTile(O.logo,"wLogoDel()"):""}</div></div><div id="logoErr"></div>
@@ -462,13 +465,13 @@ function drawWiz(){const s=wSteps(),st=s[O.i];let h="";const bar=`<div class="st
     +wNav(true,"wKeep();wStep(1)","Dalje →");
   if(st==="prodaja")h=bar+`<h2>Šta prodaješ?</h2><p class="sub">Konkretne artikle objavi kasnije kroz „Objavi oglas“.</p><div class="chips">${Object.entries(SELLS).map(([k,n])=>`<button class="${O.sells.has(k)?"on":""}" onclick="wSell('${k}')">${n}</button>`).join("")}</div>`+wNav(true,"wStep(1)","Dalje →");
   if(st==="potvrda"){const r=[...O.roles].map(k=>ROLES[k][1]).join(", ");
-    h=bar+`<h2>Provjeri i pošalji</h2><div style="background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px"><b>${esc(O.name)}</b> · ${esc(O.city)}<br>${esc(O.phone)} · ${esc(O.mail)}${O.logo?"<br>🖼️ logo dodan":""}<br><span class="meta">${esc(r)}</span>
+    h=bar+`<h2>Provjeri i pošalji</h2><div style="background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px"><b>${esc(O.name)}</b> · ${esc(O.city)}<br>${esc(O.phone)} · ${esc(O.mail)}${O.web?"<br>🌐 "+esc(O.web):""}${O.logo?"<br>🖼️ logo dodan":""}<br><span class="meta">${esc(r)}</span>
       ${O.printers.length||O.otherPrinter?`<br>🖨️ ${esc([...O.printers,O.otherPrinter].filter(Boolean).join(", "))}`:""}${O.stock.length?`<br>🧵 ${esc(O.stock.map(s=>s.join(" ")+" g").join(", "))}`:""}${O.sells.size?`<br>🛒 ${esc([...O.sells].map(k=>SELLS[k].slice(2).trim()).join(", "))}`:""}</div>
-      <label class="chk"><input type="checkbox" id="fPub"><span>Saglasan/na sam da se naziv, logo, grad, broj telefona, email, opis, printeri i plastika objave na mom javnom profilu. *</span></label>
+      <label class="chk"><input type="checkbox" id="fPub"><span>Saglasan/na sam da se naziv, logo, grad, broj telefona, email, web stranica, opis, printeri i plastika objave na mom javnom profilu. *</span></label>
       <label class="chk"><input type="checkbox" id="fTerms"><span>Prihvatam <a href="#uslovi" target="_blank">Uslove korištenja</a> i pročitao/la sam <a href="#privatnost" target="_blank">Politiku privatnosti</a>. *</span></label>
       <label class="chk"><input type="checkbox" id="fNews" checked><span>Želim primati novosti o platformi na email.</span></label><div id="sErr"></div>`+wNav(true,"wSend()","Pošalji prijavu ✓")}
   $("wiz").innerHTML=h;if(st==="podaci")$("fC").value=O.city}
-function wKeepData(){if($("fN")){O.name=$("fN").value.trim();O.city=$("fC").value;O.phone=$("fP").value.trim();O.mail=$("fE").value.trim();O.note=$("fT").value.trim()}}
+function wKeepData(){if($("fN")){O.name=$("fN").value.trim();O.city=$("fC").value;O.phone=$("fP").value.trim();O.mail=$("fE").value.trim();O.web=$("fW").value.trim();O.note=$("fT").value.trim()}}
 window.wLogo=async inp=>{const f=inp.files[0];if(!f)return;wKeepData();O.logoBusy=true;drawWiz();
   try{O.logo=await uploadImage(f,512)}catch(e){O.logoBusy=false;drawWiz();$("logoErr").innerHTML=`<div class="err">Logo nije poslan: ${esc(e.message)}. Možeš ga poslati i na Viber 061 060 784.</div>`;return}
   O.logoBusy=false;drawWiz()};
@@ -480,12 +483,12 @@ window.wSell=k=>{O.sells.has(k)?O.sells.delete(k):O.sells.add(k);drawWiz()};
 window.wStock=()=>{wKeep();O.stock.push([$("sM").value,$("sC").value,+$("sGr").value||0]);drawWiz()};
 window.wStep=d=>{O.i=Math.max(0,Math.min(wSteps().length-1,O.i+d));drawWiz();$("wiz").scrollIntoView({behavior:"smooth",block:"start"})};
 window.wSave=()=>{if(O.logoBusy){$("fErr").innerHTML=`<div class="err">Sačekaj da se logo pošalje.</div>`;return}wKeepData();O.hp=$("fH").value;
-  const e=[];if(O.name.length<2)e.push("upiši naziv");if(dig(O.phone).length<8)e.push("upiši ispravan broj");if(!/^\S+@\S+\.\S+$/.test(O.mail))e.push("upiši ispravan email");
+  const e=[];if(O.name.length<2)e.push("upiši naziv");if(dig(O.phone).length<8)e.push("upiši ispravan broj");if(!/^\S+@\S+\.\S+$/.test(O.mail))e.push("upiši ispravan email");if(O.web&&!webUrl(O.web))e.push("provjeri adresu web stranice");
   if(e.length){$("fErr").innerHTML=`<div class="err">Provjeri: ${e.join(", ")}.</div>`;return}wStep(1)};
 window.wSend=async()=>{if(!$("fPub").checked||!$("fTerms").checked){$("sErr").innerHTML=`<div class="err">Za objavu profila potrebne su obje saglasnosti označene zvjezdicom.</div>`;return}
   const b=$("nextBtn");b.disabled=true;b.textContent="Šaljem…";
   try{await sendForm({_subject:`Nova prijava printadžije – ${O.name} (${O.city})`,_template:"table",_captcha:"false",_replyto:O.mail,_honey:O.hp||"",
-    "Tip":"PRIJAVA PROFILA","Naziv":O.name,"Grad":O.city,"Telefon (Viber/WhatsApp)":O.phone,"Email (javan na profilu)":O.mail,"Logo":O.logo||"—","Uloge":[...O.roles].map(k=>ROLES[k][1]).join(", "),
+    "Tip":"PRIJAVA PROFILA","Naziv":O.name,"Grad":O.city,"Telefon (Viber/WhatsApp)":O.phone,"Email (javan na profilu)":O.mail,"Web stranica":O.web?webUrl(O.web):"—","Logo":O.logo||"—","Uloge":[...O.roles].map(k=>ROLES[k][1]).join(", "),
     "Printeri":[...O.printers,O.otherPrinter].filter(Boolean).join(", ")||"—","Plastika":O.stock.map(s=>`${s[0]} ${s[1]} ${s[2]} g`).join(", ")||"—",
     "Prodaje":[...O.sells].map(k=>SELLS[k].slice(2).trim()).join(", ")||"—","Opis":O.note||"—","Novosti na email":$("fNews").checked?"DA":"NE",
     "Saglasnost za javni profil":"DA","Prihvatio uslove i politiku":"DA (v1.2)","Vrijeme":now()});

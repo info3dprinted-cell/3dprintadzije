@@ -142,7 +142,7 @@ async function currentUser(env, request) {
   const sid = await sha256(tok);
   const u = await env.DB.prepare("SELECT u.id, u.email, u.verified, u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.id=? AND s.expires>?").bind(sid, now()).first();
   if (!u) return null;
-  u.admin = u.role === "admin" || u.email.toLowerCase() === adminEmail(env);
+  u.admin = !!u.verified && (u.role === "admin" || u.email.toLowerCase() === adminEmail(env));
   return u;
 }
 async function newSession(env, userId) {

@@ -45,6 +45,8 @@ r = await call("eve", "PUT", "me/ads/" + adId, { status: "sold" }); ok(r.s === 4
 r = await call("eve", "GET", "admin"); ok(r.s === 403, "non-admin blocked");
 // admin
 r = await call("adm", "POST", "auth/register", { email: "info.3dprinted@gmail.com", password: "adminpass1", password2: "adminpass1", terms: true });
+r = await call("adm", "GET", "admin"); ok(r.s === 403, "unverified admin blocked");
+env.DB._db.exec("UPDATE users SET verified=1 WHERE email='info.3dprinted@gmail.com'");
 r = await call("adm", "GET", "admin"); ok(r.s === 200 && r.j.profiles[0].status === "pending", "admin list");
 r = await call("adm", "POST", "admin/profile", { id: "ana-print", status: "approved" }); ok(r.s === 200, "approve");
 r = await call("anon", "GET", "public"); ok(r.j.profiles.find((p) => p.id === "ana-print") && r.j.ads.find((a) => a.id === adId), "visible after approve");

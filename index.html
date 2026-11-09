@@ -539,7 +539,7 @@ let mojTab="profil",PF=null,EDIT=null;
 const ROLE_LBL={printer:"🖨️ Printam za druge",seller:"🛒 Prodajem plastiku, printere ili dijelove"};
 const SELL_LBL={filament:"🧵 Filament",resin:"🧪 Resin",oprema:"🖨️ Printeri i oprema",dijelovi:"🔩 Rezervni dijelovi"};
 async function viewMoj(){
-  if(!ME)await loadMe();
+  await loadMe();
   if(!ME){location.hash="prijava";return}
   const u=ME.user,p=ME.profile;
   let ban="";
@@ -675,8 +675,8 @@ function tabSettings(){const u=ME.user;
 
 /* ================= ADMIN ================= */
 async function viewAdmin(){
-  if(!ME)await loadMe();
-  if(!ME||!ME.user.admin){$("v-admin").innerHTML=`<div class="card empty">Samo za administratora.</div>`;return}
+  await loadMe();
+  if(!ME||!ME.user.admin){$("v-admin").innerHTML=`<div class="card empty">Samo za administratora.${ME?`<br><br>Prijavljen/a si kao <b>${esc(ME.user.email)}</b>${ME.user.verified?"":" – email još nije potvrđen"}. Admin je nalog s emailom info.3dprinted@gmail.com, nakon potvrde emaila.`:""}</div>`;return}
   $("v-admin").innerHTML=`<h1>⚙️ Admin</h1><div class="card empty">Učitavam…</div>`;
   let D;try{D=await api("admin")}catch(x){$("v-admin").innerHTML=`<h1>⚙️ Admin</h1><div class="card empty">${esc(x.message)}</div>`;return}
   const pend=D.profiles.filter(p=>p.status==="pending"),rest=D.profiles.filter(p=>p.status!=="pending");

@@ -687,15 +687,17 @@ async function viewAdmin(){
     ${p.opis?`<div class="meta">${esc(p.opis.slice(0,200))}</div>`:""}</div></div>
     <div class="acts">${p.status!=="approved"?`<button class="btn sm" onclick="admP('${p.id}',{status:'approved'})">✓ Odobri</button>`:""}${p.status!=="hidden"?`<button class="btn sm lt" onclick="admP('${p.id}',{status:'hidden'})">Sakrij</button>`:""}
       <button class="btn sm lt" onclick="admP('${p.id}',{izdvojen:${!p.izdvojen}})">${p.izdvojen?"★ Ukloni izdvajanje":"☆ Izdvoji"}</button>${p.status==="approved"?`<a class="btn sm lt" href="#p-${p.id}">Pogledaj</a>`:""}
-      <a class="btn sm vb" href="viber://chat?number=%2B${dig(p.telefon)}">Viber</a></div></div>`;
+      <a class="btn sm vb" href="viber://chat?number=%2B${dig(p.telefon)}">Viber</a><button class="btn sm lt" style="color:var(--bad)" onclick="admDelP('${p.id}','${esc(p.naziv).replace(/'/g,"")}')">🗑 Obriši</button></div></div>`;
   $("v-admin").innerHTML=`<h1>⚙️ Admin</h1>
   <div class="grid4"><div class="stat"><div class="l">Nalozi</div><div class="v">${D.users}</div></div><div class="stat"><div class="l">Profili (javni)</div><div class="v">${D.profiles.filter(p=>p.status==="approved").length}</div></div>
     <div class="stat"><div class="l">Pregledi, 7 dana</div><div class="v">${v7}</div></div><div class="stat"><div class="l">Kontakti, 7 dana</div><div class="v">${c7}</div></div></div>
   <div class="card" style="margin-top:12px"><h2>⏳ Čeka odobrenje (${pend.length})</h2>${pend.map(pCard).join("")||'<div class="meta">Nema novih profila.</div>'}</div>
   <div class="card"><h2>Svi profili</h2>${rest.map(p=>`<div style="margin-bottom:4px">${p.status==="hidden"?'<span class="pill warn">sakriven</span>':""}</div>`+pCard(p)).join("")}</div>
   <div class="card"><h2>Oglasi (zadnjih 200)</h2>${D.ads.map(a=>`<div class="row" style="justify-content:space-between;border-top:1px solid var(--line);padding:8px 0"><div style="min-width:0;flex:1"><b>${esc(a.naslov)}</b> · ${esc(a.cijena)}<div class="meta">${esc(a.prodavac)} · ${ST_LBL[a.status]||esc(a.status)}${a.izdvojen?' <span class="pill gold">★</span>':""}</div></div>
-    <div class="row">${a.status==="hidden"?`<button class="btn sm lt" onclick="admA('${a.id}',{status:'active'})">Vrati</button>`:`<button class="btn sm lt" onclick="admA('${a.id}',{status:'hidden'})">Sakrij</button>`}<button class="btn sm lt" onclick="admA('${a.id}',{izdvojen:${!a.izdvojen}})">${a.izdvojen?"★":"☆"}</button><a class="btn sm lt" href="#o-${a.id}">👁</a></div></div>`).join("")||'<div class="meta">Nema oglasa.</div>'}</div>`}
+    <div class="row">${a.status==="hidden"?`<button class="btn sm lt" onclick="admA('${a.id}',{status:'active'})">Vrati</button>`:`<button class="btn sm lt" onclick="admA('${a.id}',{status:'hidden'})">Sakrij</button>`}<button class="btn sm lt" onclick="admA('${a.id}',{izdvojen:${!a.izdvojen}})">${a.izdvojen?"★":"☆"}</button><a class="btn sm lt" href="#o-${a.id}">👁</a><button class="btn sm lt" style="color:var(--bad)" onclick="admDelA('${a.id}')">🗑</button></div></div>`).join("")||'<div class="meta">Nema oglasa.</div>'}</div>`}
 window.admP=async(id,b)=>{try{await api("admin/profile",{method:"POST",body:{id,...b}});await loadPublic();toast("Sačuvano");viewAdmin()}catch(x){toast(x.message)}};
+window.admDelP=async(id,n)=>{if(!confirm(`Trajno obrisati profil "${n}" i sve njegove oglase? Nalog korisnika ostaje.`))return;try{await api("admin/delete-profile",{method:"POST",body:{id}});await loadPublic();toast("Profil je obrisan");viewAdmin()}catch(x){toast(x.message)}};
+window.admDelA=async id=>{if(!confirm("Trajno obrisati ovaj oglas?"))return;try{await api("admin/delete-ad",{method:"POST",body:{id}});await loadPublic();toast("Oglas je obrisan");viewAdmin()}catch(x){toast(x.message)}};
 window.admA=async(id,b)=>{try{await api("admin/ad",{method:"POST",body:{id,...b}});await loadPublic();toast("Sačuvano");viewAdmin()}catch(x){toast(x.message)}};
 
 

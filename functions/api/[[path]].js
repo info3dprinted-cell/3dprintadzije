@@ -120,6 +120,11 @@ async function init(env, request) {
       if (stm.length) await env.DB.batch(stm);
     } catch (e) { /* prenos nije kritičan */ }
   }
+  // 9.11.2026: uklonjeni profili preneseni iz starog formulara (bez naloga) – vlasnici prave nove profile s nalogom
+  await env.DB.batch([
+    env.DB.prepare("DELETE FROM ads WHERE profil IN ('yupa3d','printyourfix') AND user_id IS NULL"),
+    env.DB.prepare("DELETE FROM profiles WHERE id IN ('yupa3d','printyourfix') AND user_id IS NULL"),
+  ]);
   ready = true;
 }
 
@@ -489,6 +494,18 @@ export async function onRequest(ctx) {
         if (body.status && !["approved", "hidden", "pending"].includes(body.status)) return err("Neispravan status.");
         if (body.status) await env.DB.prepare("UPDATE profiles SET status=? WHERE id=?").bind(body.status, id).run();
         if (typeof body.izdvojen === "boolean") await env.DB.prepare("UPDATE profiles SET izdvojen=? WHERE id=?").bind(body.izdvojen ? 1 : 0, id).run();
+        return json({ ok: true });
+      }
+      if (R("POST", "admin/delete-profile")) {
+        const id = str(body.id, 60);
+        await env.DB.batch([
+          env.DB.prepare("DELETE FROM ads WHERE profil=?").bind(id),
+          env.DB.prepare("DELETE FROM profiles WHERE id=?").bind(id),
+        ]);
+        return json({ ok: true });
+      }
+      if (R("POST", "admin/delete-ad")) {
+        await env.DB.prepare("DELETE FROM ads WHERE id=?").bind(str(body.id, 60)).run();
         return json({ ok: true });
       }
       if (R("POST", "admin/ad")) {

@@ -18,7 +18,8 @@ async function call(who, method, path, body, extra = {}) {
 }
 // javno: prenos postojećih profila
 let r = await call("anon", "GET", "public");
-ok(r.s === 200 && r.j.profiles.length >= 2, "seed profiles " + JSON.stringify(r.j).slice(0, 200));
+ok(r.s === 200 && !r.j.profiles.find((p) => p.id === "yupa3d" || p.id === "printyourfix"), "old profiles removed");
+env.DB._db.exec("INSERT INTO profiles (id,naziv,grad,telefon,email,status,created) VALUES ('stari-profil','Stari','Sarajevo','+38761000000','jusufagic@printyourfix.com','approved',1)");
 // registracija bez resend ključa
 r = await call("ana", "POST", "auth/register", { email: "ana@test.ba", password: "tajna123", password2: "tajna123", terms: true });
 ok(r.s === 200 && jar.ana, "register");
@@ -55,6 +56,7 @@ await call("anon", "POST", "hit", { kind: "p", ref: "ana-print" });
 await call("anon", "POST", "hit", { kind: "o", ref: adId });
 await call("anon", "POST", "hit", { kind: "o", ref: adId, type: "contact" });
 r = await call("ana", "GET", "me/stats"); ok(r.s === 200 && r.j.totals.length === 2, "stats " + JSON.stringify(r.j.totals));
+r = await call("adm", "POST", "admin/delete-ad", { id: "nema" }); ok(r.s === 200, "admin delete ad");
 // prodano / brisanje
 r = await call("ana", "PUT", "me/ads/" + adId, { status: "sold" }); ok(r.s === 200, "sold");
 r = await call("anon", "GET", "public"); ok(!r.j.ads.find((a) => a.id === adId), "sold hidden");
@@ -75,7 +77,7 @@ r = await call("jus", "POST", "auth/register", { email: "jusufagic@printyourfix.
 ok(r.j.verifySent === true && mails.length === 1, "verify mail sent");
 const vt = mails[0].text.match(/potvrdi=([\w-]+)/)[1];
 r = await call("jus", "POST", "auth/verify", { token: vt }); ok(r.s === 200, "verify");
-r = await call("jus", "GET", "me"); ok(r.j.profile && r.j.profile.id === "printyourfix" && r.j.user.verified, "claimed existing profile " + JSON.stringify(r.j.profile && r.j.profile.id));
+r = await call("jus", "GET", "me"); ok(r.j.profile && r.j.profile.id === "stari-profil" && r.j.user.verified, "claimed existing profile " + JSON.stringify(r.j.profile && r.j.profile.id));
 r = await call("anon", "POST", "auth/forgot", { email: "ana@test.ba" }); ok(r.s === 200 && mails.length === 2, "forgot mail");
 const rt = mails[1].text.match(/reset=([\w-]+)/)[1];
 r = await call("anon2", "POST", "auth/reset", { token: rt, password: "novalozinka", password2: "novalozinka" }); ok(r.s === 200 && jar.anon2, "reset");
@@ -86,4 +88,6 @@ r = await call("ana", "POST", "auth/login", { email: "ana@test.ba", password: "n
 r = await call("ana", "POST", "me/password", { old: "novalozinka", password: "treca1234", password2: "treca1234" }); ok(r.s === 200, "change pw");
 r = await call("ana", "POST", "me/delete", { password: "treca1234" }); ok(r.s === 200, "delete account");
 r = await call("anon", "GET", "public"); ok(!r.j.profiles.find((p) => p.id === "ana-print"), "deleted profile gone");
+r = await call("adm", "POST", "admin/delete-profile", { id: "stari-profil" }); ok(r.s === 200, "admin delete profile");
+r = await call("jus", "GET", "me"); ok(r.j.profile === null, "profile deleted, account stays");
 console.log(`PASS ${pass}  FAIL ${fail}`);

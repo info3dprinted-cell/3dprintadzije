@@ -118,6 +118,23 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
 .kv b{color:var(--muted);font-weight:600}
 .doc h3{margin:22px 0 6px;font-size:17px}
 .doc p,.doc li{color:#2b3140;font-size:15px}
+.pw{position:relative}.pw input{padding-right:44px}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:18px;cursor:pointer;padding:6px;opacity:.6}
+.heart{border:1px solid var(--line);background:#fff;border-radius:999px;min-width:36px;height:36px;padding:0 10px;font-size:18px;line-height:1;cursor:pointer;color:#98a2b3;flex:none}
+.heart.on{color:#e0245e;border-color:#f6c2d2;background:#fff0f5}
+.heart[data-long]{font-size:14px;font-weight:700}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;z-index:60;opacity:0;transition:.25s;pointer-events:none;max-width:92vw;text-align:center}
+.toast.on{opacity:1}
+.banner{border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:14px}
+.banner.warn{background:var(--warnbg);color:#7a2e0e}.banner.ok{background:var(--okbg);color:#05603a}.banner.info{background:#eef4ff;color:#1d3a8a}
+.grid4{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat .v{font-size:24px;font-weight:800}.stat .l{font-size:12px;color:var(--muted);font-weight:600}
+.bars{display:flex;align-items:flex-end;gap:3px;height:120px;margin:6px 0}
+.bar{flex:1;height:100%;display:flex;align-items:flex-end;background:#f2f4f7;border-radius:4px}
+.bar span{display:block;width:100%;background:var(--acc);border-radius:4px;min-height:2px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}.tbl th,.tbl td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}.tbl th{font-size:12px;color:var(--muted)}
+.x{background:none;border:0;color:var(--bad);font-size:22px;cursor:pointer;padding:0 6px}
 @media(max-width:600px){h1{font-size:23px}}
 </style>
 </head>
@@ -125,14 +142,15 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
 <header>
   <div class="top">
     <a class="brand" href="#trazi"><img src="/favicon.png" alt="YUPA 3D"><div><b>3D Printadžije</b><small>by YUPA 3D Engineering</small></div></a>
-    <a class="hdrbtn" href="#prijava">+ Dodaj se besplatno</a>
+    <a class="hdrbtn" id="acctBtn" href="#prijava">Prijava</a>
   </div>
   <nav id="nav">
     <a href="#trazi">Nađi printadžiju</a>
     <a href="#printadzije">Sve printadžije</a>
     <a href="#oglasi">Oglasi</a>
-    <a href="#prijava">Prijava printadžije</a>
-    <a href="#objavi">Objavi oglas</a>
+    <a href="#sacuvano">♡ Sačuvano <span id="savedCnt"></span></a>
+    <a href="#prijava" id="navMoj">Prijava / Registracija</a>
+    <a href="#admin" id="navAdmin" class="hide">⚙️ Admin</a>
   </nav>
 </header>
 
@@ -180,19 +198,13 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
   <div id="adList"></div>
 </section>
 
-<!-- ===== PRIJAVA PRINTADŽIJE ===== -->
-<section id="v-prijava" class="hide">
-  <h1>Dodaj se kao printadžija ili prodavač</h1>
-  <p class="sub">Besplatno. Pregledamo prijavu, javimo ti se na Viber i objavimo profil – obično isti ili sljedeći dan.</p>
-  <div class="wiz" id="wiz"></div>
-</section>
-
-<!-- ===== OBJAVI OGLAS ===== -->
-<section id="v-objavi" class="hide">
-  <h1>Objavi oglas – besplatno</h1>
-  <p class="sub">Plastika, printer, oprema ili dijelovi. Oglas pregledamo i objavimo, obično isti ili sljedeći dan.</p>
-  <div class="card" id="adForm"></div>
-</section>
+<section id="v-prijava" class="hide"></section>
+<section id="v-registracija" class="hide"></section>
+<section id="v-zaboravljena" class="hide"></section>
+<section id="v-reset" class="hide"></section>
+<section id="v-moj" class="hide"></section>
+<section id="v-admin" class="hide"></section>
+<section id="v-sacuvano" class="hide"></section>
 
 <!-- ===== PROFIL ===== -->
 <section id="v-profil" class="hide"></section>
@@ -202,19 +214,20 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
 <!-- ===== USLOVI ===== -->
 <section id="v-uslovi" class="hide doc"><div class="in">
 <h1>Uslovi korištenja</h1>
-<p><i>Verzija 1.2 · važi od 8. novembra 2026.</i></p>
+<p><i>Verzija 2.0 · važi od 9. novembra 2026.</i></p>
 <h3>1. Ko smo</h3>
 <p>Stranicu 3D Printadžije (3dprintadzije.com, u daljem tekstu: „Platforma“) vodi Amar Borić, vlasnik obrta YUPA INŽENJERING, Aleja Lipa 51, 71000 Sarajevo, Bosna i Hercegovina (u daljem tekstu: „mi“). Kontakt: info.3dprinted@gmail.com, 061 060 784.</p>
 <h3>2. Šta je Platforma</h3>
 <p>Platforma je oglasni imenik koji povezuje osobe kojima treba 3D print („klijenti“), osobe i firme koje pružaju usluge 3D printanja („printadžije“) i osobe i firme koje prodaju plastiku, printere, opremu i dijelove („prodavci“).</p>
 <p>Mi <b>ne pružamo usluge printanja i ne prodajemo robu</b> putem Platforme, ne učestvujemo u dogovoru, plaćanju ni isporuci između korisnika i nismo strana u njihovom ugovoru. Svaki dogovor korisnici zaključuju direktno, na vlastitu odgovornost.</p>
-<h3>3. Objava profila i oglasa</h3>
+<h3>3. Nalozi, profili i oglasi</h3>
 <ul>
-<li>Profil ili oglas šalješ putem formulara. Prije objave ga pregledamo i možemo te kontaktirati radi provjere. Zadržavamo pravo da prijavu ne objavimo, bez obaveze obrazloženja.</li>
-<li>Slanjem prijave potvrđuješ da su podaci tačni, da imaš pravo da ih objaviš i da si punoljetan/na ili zastupaš registrovani poslovni subjekt.</li>
-<li>Logo i fotografije koje pošalješ moraju biti tvoje ili moraš imati pravo da ih objaviš. Fotografije trebaju prikazivati stvarni artikal ili tvoje radove; ne smiju sadržavati lične podatke drugih osoba.</li>
-<li>Dužan/a si nas obavijestiti o promjenama (printeri, plastika, cijene, prodani artikli) kako bi podaci bili tačni. Profile i oglase koji duže vrijeme nisu ažurirani možemo ukloniti.</li>
-<li>Izmjenu ili brisanje profila i oglasa možeš zatražiti u bilo kojem trenutku na info.3dprinted@gmail.com ili Viber 061 060 784.</li>
+<li>Pretraga i kontaktiranje printadžija i prodavaca ne traže nalog. Za objavu profila printadžije ili prodavača i oglasa potreban je nalog (email i lozinka).</li>
+<li>Pri registraciji potvrđuješ da su podaci tačni i da si punoljetan/na ili zastupaš registrovani poslovni subjekt. Odgovoran/na si za čuvanje svoje lozinke i za sve što se objavi s tvog naloga. Jedna osoba ili firma treba imati jedan nalog.</li>
+<li>Novi profil pregledamo prije nego postane javan i možemo te kontaktirati radi provjere. Oglasi s odobrenih profila objavljuju se odmah; zadržavamo pravo da bez najave sakrijemo ili uklonimo profil ili oglas koji krši ove uslove, kao i da ugasimo nalog.</li>
+<li>Dužan/a si držati podatke tačnim (printeri, plastika, cijene) i označiti prodane artikle. Profile i oglase koji duže vrijeme nisu ažurirani možemo ukloniti.</li>
+<li>Logo i fotografije moraju biti tvoji ili moraš imati pravo da ih objaviš; trebaju prikazivati stvarni artikal ili tvoje radove i ne smiju sadržavati lične podatke drugih osoba.</li>
+<li>Nalog možeš u bilo kojem trenutku trajno obrisati u Moj profil → Postavke.</li>
 <li>Ako na Platformi nudiš usluge ili robu kao djelatnost, sam/a si odgovoran/na za registraciju te djelatnosti i za poreske obaveze.</li>
 </ul>
 <h3>4. Zabranjeni sadržaj</h3>
@@ -240,31 +253,35 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
 <!-- ===== PRIVATNOST ===== -->
 <section id="v-privatnost" class="hide doc"><div class="in">
 <h1>Politika privatnosti</h1>
-<p><i>Verzija 1.3 · važi od 9. novembra 2026.</i></p>
+<p><i>Verzija 2.0 · važi od 9. novembra 2026.</i></p>
 <p>Ovdje objašnjavamo koje lične podatke obrađujemo, zašto, s kim ih dijelimo i koja su tvoja prava, u skladu sa Zakonom o zaštiti ličnih podataka („Službeni glasnik BiH“, br. 12/25).</p>
 <h3>1. Kontrolor podataka</h3>
 <p>Amar Borić, obrt YUPA INŽENJERING, Aleja Lipa 51, 71000 Sarajevo, Bosna i Hercegovina. Email: info.3dprinted@gmail.com.</p>
 <h3>2. Klijenti koji pretražuju</h3>
 <p>Pretraga ne traži registraciju. STL fajl koji ubaciš obrađuje se samo u tvom pregledniku i ne šalje se nama.</p>
 <p><b>Statistika posjeta:</b> koristimo Cloudflare Web Analytics, koji broji posjete i preglede stranica bez kolačića i bez praćenja pojedinaca. Vidimo samo zbirne podatke (npr. broj pregleda po danu, vrstu uređaja, državu i stranicu s koje je posjetilac došao), ne i ko je posjetio stranicu. Pravni osnov je naš legitimni interes da pratimo rad i posjećenost stranice.</p>
-<h3>3. Printadžije i prodavci (profili i oglasi)</h3>
-<p>Kroz formulare prikupljamo: ime i prezime ili naziv, grad, broj telefona (Viber/WhatsApp), email, web stranicu ili društvene mreže, logo, fotografije artikala, printere, plastiku na stanju, opis, kategorije i podatke iz oglasa, te tvoj izbor u vezi s novostima.</p>
+<h3>3. Korisnici s nalogom (printadžije i prodavci)</h3>
+<p>Obrađujemo: email i lozinku (lozinku čuvamo isključivo u zaštićenom, nepovratno šifrovanom obliku), te podatke koje uneseš u profil i oglase – naziv ili ime, grad, broj telefona, email za kontakt, web stranicu, logo, fotografije, printere, plastiku, opis i podatke iz oglasa.</p>
 <ul>
-<li><b>Svrha i osnov:</b> objava tvog profila i oglasa na tvoj zahtjev (izvršenje usluge koju tražiš), provjera prijave i kontakt u vezi s njom; slanje novosti samo uz tvoju saglasnost, koju možeš povući bilo kada.</li>
-<li><b>Šta je javno na profilu printadžije:</b> naziv, logo, grad, broj telefona, email, web stranica (ako je navedeš), opis, printeri, plastika i oglasi – jer je svrha da te klijenti i kupci mogu pronaći i kontaktirati. U listi su vidljivi samo naziv, logo i grad; ostalo je na stranici profila.</li>
-<li><b>Šta je javno u oglasu:</b> naslov, cijena, opis, fotografije, ime prodavača, grad i broj telefona. Email iz oglasa se ne objavljuje.</li>
+<li><b>Svrha i osnov:</b> vođenje tvog naloga i objava profila i oglasa na tvoj zahtjev (izvršenje usluge koju koristiš); slanje emailova potrebnih za nalog (potvrda emaila, nova lozinka, obavijesti o profilu).</li>
+<li><b>Šta je javno:</b> na profilu – naziv, logo, grad, broj telefona, email za kontakt, web stranica, opis, printeri, plastika i oglasi; u oglasu – naslov, cijena, opis, fotografije, ime prodavača, grad i broj telefona. U listama su vidljivi samo naziv, logo i grad. Email kojim se prijavljuješ nije javan, osim ako ga sam/a upišeš kao email za kontakt.</li>
+<li><b>Statistika za tvoj profil:</b> brojimo preglede tvog profila i oglasa i klikove na kontakt dugmad, zbirno po danu, i prikazujemo ih samo tebi. Ne bilježimo ko je posjetio stranicu.</li>
 </ul>
+<h3>3a. Kolačići i podaci na tvom uređaju</h3>
+<p>Kad se prijaviš, koristimo jedan neophodan kolačić (<i>sid</i>) koji te drži prijavljenim do 30 dana; bez njega prijava ne radi. Ne koristimo kolačiće za praćenje ni reklame. Sačuvani oglasi (♡) čuvaju se samo u pregledniku na tvom uređaju i ne šalju se nama.</p>
 <h3>4. Obrađivači</h3>
 <ul>
-<li><b>FormSubmit</b> (formsubmit.co) – prenosi podatke iz formulara na naš email;</li>
+<li><b>Resend</b> (resend.com) – slanje emailova za nalog (potvrda, nova lozinka);</li>
+<li><b>FormSubmit</b> (formsubmit.co) – prijave poslane ranijim formularom;</li>
 <li><b>Google</b> (Gmail) – čuvanje primljenih prijava;</li>
-<li><b>Cloudflare</b> i <b>GitHub</b> – hosting stranice, čuvanje objavljenih podataka te loga i fotografija koje pošalješ; Cloudflare i za zbirnu statistiku posjeta.</li>
+<li><b>Cloudflare</b> – hosting stranice, baza podataka (nalozi, profili, oglasi, statistika), pohrana loga i fotografija i zbirna statistika posjeta;</li>
+<li><b>GitHub</b> – čuvanje koda stranice.</li>
 </ul>
 <p>Ovi pružaoci mogu obrađivati podatke i izvan Bosne i Hercegovine (npr. u SAD-u). Podatke ne prodajemo i ne ustupamo trećim licima za njihov marketing.</p>
 <h3>5. Koliko dugo</h3>
-<p>Profil i oglase čuvamo dok ih ne uklonimo na tvoj zahtjev ili dok ne prestanu biti aktuelni (npr. prodan artikal, neažuriran profil). Primljene prijave i fotografije koje ne objavimo brišemo najkasnije 12 mjeseci od prijema.</p>
+<p>Podatke naloga, profila i oglasa čuvamo dok imaš nalog. Kad obrišeš nalog (Moj profil → Postavke), odmah brišemo nalog, profil i oglase iz baze; fotografije se uklanjaju s javne stranice odmah, a iz pohrane najkasnije u roku od 12 mjeseci. Zbirnu statistiku bez ličnih podataka možemo zadržati. Prijave poslane ranijim formularom koje ne objavimo brišemo najkasnije 12 mjeseci od prijema.</p>
 <h3>6. Tvoja prava</h3>
-<p>Imaš pravo na pristup, ispravku, brisanje, ograničenje obrade i prenos podataka, pravo na prigovor i pravo da povučeš saglasnost. Zahtjev pošalji na info.3dprinted@gmail.com – odgovaramo bez nepotrebnog odlaganja, najkasnije u roku od mjesec dana. Imaš pravo podnijeti pritužbu Agenciji za zaštitu ličnih podataka u Bosni i Hercegovini.</p>
+<p>Imaš pravo na pristup, ispravku, brisanje, ograničenje obrade i prenos podataka, pravo na prigovor i pravo da povučeš saglasnost. Većinu podataka možeš sam/a izmijeniti ili obrisati u Moj profil; za ostalo pošalji zahtjev na info.3dprinted@gmail.com – odgovaramo bez nepotrebnog odlaganja, najkasnije u roku od mjesec dana. Imaš pravo podnijeti pritužbu Agenciji za zaštitu ličnih podataka u Bosni i Hercegovini.</p>
 <h3>7. Sigurnost i izmjene</h3>
 <p>Podatke štitimo razumnim tehničkim i organizacijskim mjerama. Ovu politiku ažuriramo kad uvodimo nove funkcije; važeća verzija i datum uvijek su na ovoj stranici.</p>
 </div></section>
@@ -278,8 +295,8 @@ footer img{height:40px;margin-bottom:10px;background:#fff;border-radius:8px;padd
   © 2026 YUPA INŽENJERING
 </div></footer>
 
+<div class="toast" id="toast" role="status"></div>
 <script>
-const FORM_EMAIL="info.3dprinted@gmail.com";
 const PRINTERS={
  "Creality K1":[220,220,250,"FDM"],"Creality K1C":[220,220,250,"FDM"],"Creality K1 Max":[300,300,300,"FDM"],"Creality K2 Plus":[350,350,350,"FDM"],
  "Creality Ender-3 V3":[220,220,250,"FDM"],"Creality Ender-3 V3 SE":[220,220,250,"FDM"],"Creality Ender-5 Max":[400,400,400,"FDM"],
@@ -302,7 +319,7 @@ const initials=n=>n.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpper
 const sortDesc=a=>[...a].sort((x,y)=>y-x);
 const fits=(pr,d)=>{const b=PRINTERS[pr];if(!b)return null;const bd=sortDesc(b.slice(0,3)),dd=sortDesc(d);return dd.every((v,i)=>v<=bd[i])};
 const fmtDate=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s||"");return m?`${+m[3]}.${+m[2]}.${m[1]}.`:""};
-const contact=p=>`<a class="btn sm vb" href="viber://chat?number=%2B${dig(p.telefon)}">Viber</a><a class="btn sm wa" href="https://wa.me/${dig(p.telefon)}" target="_blank" rel="noopener">WhatsApp</a><a class="btn sm lt" href="tel:+${dig(p.telefon)}">📞 ${esc(p.telefon)}</a>`;
+const contact=(p,kind,ref)=>{const t=kind?` onclick="hit('${kind}','${esc(ref)}','contact')"`:"";return `<a class="btn sm vb" href="viber://chat?number=%2B${dig(p.telefon)}"${t}>Viber</a><a class="btn sm wa" href="https://wa.me/${dig(p.telefon)}" target="_blank" rel="noopener"${t}>WhatsApp</a><a class="btn sm lt" href="tel:+${dig(p.telefon)}"${t}>📞 ${esc(p.telefon)}</a>`};
 let P=[],A=[];
 const avatar=(p,big)=>`<div class="av${big?" big":""}">${p.logo?`<img src="${esc(p.logo)}" alt="${esc(p.naziv)} logo" loading="lazy">`:esc(initials(p.naziv))}</div>`;
 const webUrl=u=>{u=String(u||"").trim();if(!u)return "";if(!/^https?:\/\//i.test(u))u="https://"+u;try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:""}catch{return ""}};
@@ -310,8 +327,15 @@ const webLabel=u=>u.replace(/^https?:\/\//i,"").replace(/^www\./i,"").replace(/\
 const adsOf=p=>A.filter(a=>a.profil===p.id);
 
 /* ---------- podaci ---------- */
+async function loadPublic(){
+  try{const r=await fetch("/api/public",{cache:"no-store"});if(!r.ok)throw 0;const j=await r.json();P=j.profiles;A=j.ads}
+  catch(e){try{const [p,a]=await Promise.all([fetch("/data/printadzije.json",{cache:"no-store"}).then(r=>r.json()),fetch("/data/oglasi.json",{cache:"no-store"}).then(r=>r.json())]);P=p;A=a}catch(e2){P=[];A=[]}}}
 async function load(){
-  try{const [p,a]=await Promise.all([fetch("/data/printadzije.json",{cache:"no-store"}).then(r=>r.json()),fetch("/data/oglasi.json",{cache:"no-store"}).then(r=>r.json())]);P=p;A=a}catch(e){P=[];A=[]}
+  const q=new URLSearchParams(location.search);
+  if(q.get("reset")){RESET_TOKEN=q.get("reset");history.replaceState(null,"","/#reset")}
+  const vt=q.get("potvrdi");if(vt)history.replaceState(null,"","/#moj");
+  await Promise.all([loadPublic(),loadMe()]);updSaved();
+  if(vt){try{await api("auth/verify",{method:"POST",body:{token:vt}});await loadMe();toast("✓ Email je potvrđen")}catch(x){toast(x.message)}}
   route();
 }
 
@@ -365,14 +389,14 @@ function profilePage(id){const p=P.find(x=>x.id===id);
   <div class="card"><div class="ph">${avatar(p,true)}<div><h1>${esc(p.naziv)}</h1><div class="meta">📍 ${esc(p.grad)}${p.azurirano?` · stanje ažurirano ${fmtDate(p.azurirano)}`:""}</div>
     <div>${p.izdvojen?'<span class="pill gold">⭐ IZDVOJENO</span>':""}<span class="pill ok">✓ provjeren profil</span></div></div></div>
     ${p.opis?`<p style="margin:12px 0 0;color:#344054">${esc(p.opis)}</p>`:""}</div>
-  <div class="card"><h2>📞 Kontakt</h2><div class="acts" style="margin-top:0">${contact(p)}${p.email?`<a class="btn sm lt" href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`:""}${webUrl(p.web)?`<a class="btn sm lt" href="${esc(webUrl(p.web))}" target="_blank" rel="noopener nofollow">🌐 ${esc(webLabel(webUrl(p.web)))}</a>`:""}</div>
+  <div class="card"><h2>📞 Kontakt</h2><div class="acts" style="margin-top:0">${contact(p,"p",p.id)}${p.email?`<a class="btn sm lt" href="mailto:${esc(p.email)}" onclick="hit('p','${esc(p.id)}','contact')">✉️ ${esc(p.email)}</a>`:""}${webUrl(p.web)?`<a class="btn sm lt" href="${esc(webUrl(p.web))}" target="_blank" rel="noopener nofollow">🌐 ${esc(webLabel(webUrl(p.web)))}</a>`:""}</div>
     <div class="meta" style="margin-top:8px">💡 STL fajl pošalji direktno preko Vibera, WhatsAppa ili emaila i dogovori cijenu i rok.</div></div>
   ${p.printeri.length?`<div class="card"><h2>🖨️ Printeri</h2><div class="pr" style="margin-top:0">${pr}</div></div>`:""}
   ${p.printeri.length?`<div class="card"><h2>🧵 Plastika na stanju</h2>${st}</div>`:""}
   ${(p.prodaje||[]).length?`<div class="card"><h2>🛒 Prodaje</h2>${p.prodaje.map(k=>`<span class="pill">${(CATS[k]||["",k]).join(" ")}</span>`).join("")}</div>`:""}
   ${ads.length?`<div class="card"><h2>📦 Oglasi</h2>${ads.map(adCard).join("")}</div>`:""}`;
-  window.scrollTo(0,0)}
-const ctaJoin=`<div class="cta"><h2>Printaš? Dodaj se besplatno.</h2><p>Klijenti te nalaze po tvojim printerima i plastici. Prijava traje minutu.</p><a class="btn" href="#prijava">+ Dodaj se kao printadžija</a></div>`;
+  hit("p",p.id);window.scrollTo(0,0)}
+const ctaJoin=`<div class="cta"><h2>Printaš? Dodaj se besplatno.</h2><p>Klijenti te nalaze po tvojim printerima i plastici. Prijava traje minutu.</p><a class="btn" href="#registracija">+ Dodaj se kao printadžija</a></div>`;
 function runSearch(){const q=query();const all=sortP(P).map(p=>({p,e:evalP(p,q)}));
   const ok=all.filter(x=>x.e.ok&&!x.e.maybe),maybe=all.filter(x=>x.e.ok&&x.e.maybe),no=all.filter(x=>!x.e.ok);
   let h="";
@@ -396,7 +420,7 @@ function adCard(a){const c=CATS[a.kategorija]||["📦",""];const img=(a.slike||[
   return `<div class="ad click ${a.izdvojen?"feat":""}" style="cursor:pointer" onclick="location.hash='o-${esc(a.id)}'" role="link" tabindex="0"><div class="thumb">${img?`<img src="${esc(img)}" alt="" loading="lazy">`:c[0]}</div><div style="flex:1;min-width:0">
     <div class="row" style="justify-content:space-between;align-items:flex-start"><b>${esc(a.naslov)}</b><span class="price">${esc(a.cijena)}</span></div>
     <div>${a.izdvojen?'<span class="pill gold">⭐ IZDVOJENO</span>':""}<span class="pill">${c[0]} ${c[1]}</span>${a.stanje?`<span class="pill ${a.stanje==="Novo"?"ok":"warn"}">${esc(a.stanje)}</span>`:""}${(a.slike||[]).length>1?`<span class="pill">📷 ${a.slike.length}</span>`:""}</div>
-    <div class="meta" style="margin-top:4px">📍 ${esc(a.grad)}${a.datum?` · ${fmtDate(a.datum)}`:""}</div></div></div>`}
+    <div class="row" style="justify-content:space-between;margin-top:4px"><span class="meta">📍 ${esc(a.grad)}${a.datum?` · ${fmtDate(a.datum)}`:""}</span>${heart(a.id)}</div></div></div>`}
 function renderAds(){
   $("adTabs").innerHTML=[["","Sve"],...Object.entries(CATS).map(([k,[i,n]])=>[k,i+" "+n])].map(([k,n])=>`<button class="${adCat===k?"on":""}" onclick="pickCat('${k}')">${n} <span style="opacity:.6">${A.filter(a=>!k||a.kategorija===k).length}</span></button>`).join("");
   const l=A.filter(a=>!adCat||a.kategorija===adCat).sort((a,b)=>(!!b.izdvojen-!!a.izdvojen)||String(b.datum).localeCompare(String(a.datum)));
@@ -411,15 +435,51 @@ function adPage(id){const a=A.find(x=>x.id===id);
     <div style="margin-top:6px"><span class="pill">${c[0]} ${c[1]}</span>${a.stanje?`<span class="pill ${a.stanje==="Novo"?"ok":"warn"}">${esc(a.stanje)}</span>`:""}${a.materijal?`<span class="pill">${sw(a.boja)}${esc(a.materijal)} ${esc(a.boja||"")}</span>`:""}</div>
     ${a.opis?`<p style="white-space:pre-wrap;color:#344054">${esc(a.opis)}</p>`:""}
     <div class="meta">👤 ${seller?`<a href="#p-${esc(seller.id)}"><b>${esc(a.prodavac)}</b></a>`:`<b>${esc(a.prodavac)}</b>`} · 📍 ${esc(a.grad)}${a.datum?` · objavljeno ${fmtDate(a.datum)}`:""}</div>
-    <div class="acts">${contact(a)}</div></div>`;
-  window.scrollTo(0,0)}
+    <div class="acts">${contact(a,"o",a.id)}${heart(a.id,true)}</div></div>`;
+  hit("o",a.id);window.scrollTo(0,0)}
 window.pickCat=k=>{adCat=k;renderAds()};
 
-/* ---------- slanje ---------- */
-async function sendForm(data){const r=await fetch("https://formsubmit.co/ajax/"+FORM_EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});if(!r.ok)throw new Error("HTTP "+r.status);return r}
-const now=()=>new Date().toLocaleString("bs-BA",{timeZone:"Europe/Sarajevo"});
+/* ================= API i nalog ================= */
+async function api(path,opts={}){
+  const o={method:opts.method||"GET",headers:{},credentials:"same-origin"};
+  if(opts.body!==undefined){o.headers["Content-Type"]="application/json";o.body=JSON.stringify(opts.body)}
+  const r=await fetch("/api/"+path,o);let j={};try{j=await r.json()}catch{}
+  if(!r.ok)throw Object.assign(new Error(j.error||`Greška (${r.status}). Pokušaj ponovo.`),{status:r.status});
+  return j}
+let ME=null,MESTATS=null;
+async function loadMe(){try{ME=await api("me")}catch(e){ME=null}updAcct();return ME}
+function updAcct(){const b=$("acctBtn");
+  if(ME){b.textContent="👤 Moj profil";b.href="#moj"}else{b.textContent="Prijava";b.href="#prijava"}
+  $("navMoj").textContent=ME?"Moj profil":"Prijava / Registracija";$("navMoj").href=ME?"#moj":"#prijava";
+  $("navAdmin").classList.toggle("hide",!(ME&&ME.user.admin))}
+function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2600)}
+const errBox=(id,msg)=>{$(id).innerHTML=msg?`<div class="err">${esc(msg)}</div>`:""};
+async function withBusy(btn,label,fn){const old=btn.textContent;btn.disabled=true;btn.textContent=label;try{await fn()}finally{btn.disabled=false;btn.textContent=old}}
+const pwField=(id,label,ac)=>`<label>${label}</label><div class="pw"><input id="${id}" type="password" autocomplete="${ac}" minlength="8" required><button type="button" class="eye" onclick="const i=$('${id}');i.type=i.type==='password'?'text':'password'" aria-label="Prikaži lozinku">👁</button></div>`;
+const authCard=h=>`<div class="card" style="max-width:460px;margin:0 auto">${h}</div>`;
 
-/* ---------- slike ---------- */
+/* ================= sačuvani oglasi (na ovom uređaju) ================= */
+const SAVED_KEY="3dp_saved";
+function getSaved(){try{return JSON.parse(localStorage.getItem(SAVED_KEY))||[]}catch{return []}}
+function setSaved(a){try{localStorage.setItem(SAVED_KEY,JSON.stringify(a.slice(0,200)))}catch{}updSaved()}
+const isSaved=id=>getSaved().includes(id);
+window.toggleSave=(id,ev)=>{if(ev){ev.stopPropagation();ev.preventDefault()}const s=getSaved(),i=s.indexOf(id);i<0?s.unshift(id):s.splice(i,1);setSaved(s);
+  document.querySelectorAll(`[data-save="${id}"]`).forEach(b=>{const on=isSaved(id);b.classList.toggle("on",on);b.innerHTML=b.dataset.long?(on?"♥ Sačuvano":"♡ Sačuvaj"):(on?"♥":"♡")});
+  toast(isSaved(id)?"Oglas je sačuvan na ovom uređaju":"Uklonjeno iz sačuvanih")};
+function updSaved(){const n=getSaved().length;$("savedCnt").textContent=n?`(${n})`:""}
+const heart=(id,long)=>`<button type="button" class="heart${isSaved(id)?" on":""}" data-save="${esc(id)}"${long?' data-long="1"':""} onclick="toggleSave('${esc(id)}',event)" aria-label="Sačuvaj oglas">${long?(isSaved(id)?"♥ Sačuvano":"♡ Sačuvaj"):(isSaved(id)?"♥":"♡")}</button>`;
+function viewSaved(){const ids=getSaved(),l=ids.map(id=>A.find(a=>a.id===id)).filter(Boolean),gone=ids.length-l.length;
+  $("v-sacuvano").innerHTML=`<h1>♥ Sačuvani oglasi</h1><p class="sub">Čuvaju se samo na ovom uređaju – bez naloga.</p>
+  ${l.map(adCard).join("")||`<div class="card empty">Nemaš sačuvanih oglasa. Dodirni ♡ na oglasu da ga sačuvaš.</div>`}
+  ${gone?`<div class="meta" style="margin-top:8px">${gone} ${gone===1?"oglas više nije dostupan":"oglasa više nisu dostupna"} (prodano ili uklonjeno). <a href="#" onclick="setSaved(getSaved().filter(id=>A.some(a=>a.id===id)));viewSaved();return false">Ukloni ih</a></div>`:""}`}
+
+/* ================= statistika posjeta ================= */
+function hit(kind,ref,type="view"){const k=`hit:${kind}:${ref}:${type}`;
+  try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch{}
+  fetch("/api/hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({kind,ref,type})}).catch(()=>{})}
+window.hit=hit;
+
+/* ================= slike ================= */
 async function shrink(file,max,q){
   const url=URL.createObjectURL(file);
   try{const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error("Ne mogu otvoriti sliku"));i.src=url});
@@ -430,121 +490,229 @@ async function shrink(file,max,q){
   finally{URL.revokeObjectURL(url)}}
 async function uploadImage(file,max=1280){
   if(!file.type.startsWith("image/"))throw new Error("To nije slika");
-  const blob=await shrink(file,max,0.82);
-  const fd=new FormData();fd.append("file",blob,"slika.jpg");
-  const r=await fetch("/api/slika",{method:"POST",body:fd});
-  const j=await r.json().catch(()=>({}));
-  if(!r.ok||!j.url)throw new Error(j.error||"Upload nije uspio");
-  return location.origin+j.url}
+  const blob=await shrink(file,max,0.82),fd=new FormData();fd.append("file",blob,"slika.jpg");
+  const r=await fetch("/api/slika",{method:"POST",body:fd,credentials:"same-origin"});const j=await r.json().catch(()=>({}));
+  if(!r.ok||!j.url)throw new Error(j.error||"Slanje slike nije uspjelo");return j.url}
 const upTile=(src,onDel)=>`<div class="u">${src?`<img src="${esc(src)}" alt="">`:"šaljem…"}${onDel?`<button type="button" onclick="${onDel}" aria-label="Ukloni">×</button>`:""}</div>`;
 
-/* ---------- prijava printadžije (wizard) ---------- */
-let O={i:0,roles:new Set(),name:"",city:"Sarajevo",phone:"",mail:"",web:"",note:"",logo:"",logoBusy:false,printers:[],otherPrinter:"",stock:[],sells:new Set(),sent:false};
-const SELLS={filament:"🧵 Filament",resin:"🧪 Resin",oprema:"🖨️ Printeri i oprema",dijelovi:"🔩 Rezervni dijelovi"};
-const wSteps=()=>{const s=["uloga","podaci"];if(O.roles.has("printer"))s.push("printeri");if(O.roles.has("seller"))s.push("prodaja");s.push("potvrda");return s};
-const wNav=(back,next,label,ok=true)=>`<div class="nav">${back?`<button class="btn lt" onclick="wStep(-1)">← Nazad</button>`:""}<button class="btn" id="nextBtn" ${ok?"":"disabled"} onclick="${next}">${label}</button></div>`;
-function drawWiz(){const s=wSteps(),st=s[O.i];let h="";const bar=`<div class="steps">${s.map((x,k)=>`<span class="${k<=O.i?"on":""}"></span>`).join("")}</div>`;
-  if(O.sent){$("wiz").innerHTML=`<div class="okbox"><div style="font-size:42px">🎉</div><h2 style="color:#05603a">Hvala, ${esc(O.name)}!</h2><p style="margin:6px 0 0">Prijava je stigla. Javit ćemo ti se na Viber ${esc(O.phone)} i objaviti profil – obično isti ili sljedeći dan.</p></div><p class="sub" style="text-align:center;margin-top:14px">Znaš još nekoga ko printa? Pošalji mu link 3dprintadzije.com 🙌</p>`;return}
-  if(st==="uloga")h=bar+`<h2>Šta radiš?</h2><p class="sub">Možeš odabrati oboje.</p>`+Object.entries(ROLES).map(([k,[ic,t,d]])=>`<div class="big ${O.roles.has(k)?"on":""}" onclick="wRole('${k}')"><div class="ic">${ic}</div><div><b>${t}</b><span>${d}</span></div></div>`).join("")+wNav(false,"wStep(1)","Dalje →",O.roles.size>0);
-  if(st==="podaci")h=bar+`<h2>Podaci za profil</h2><p class="sub">U listi se vide naziv, logo i grad. Broj, email, printeri i plastika su na stranici tvog profila.</p>
-    <label>Ime ili naziv radionice/firme *</label><input id="fN" value="${esc(O.name)}" placeholder="npr. PrintLab Tuzla">
-    <div class="g2"><div><label>Grad *</label><select id="fC">${opts(CITIES)}</select></div><div><label>Broj (Viber / WhatsApp) *</label><input id="fP" type="tel" value="${esc(O.phone)}" placeholder="+387 6x xxx xxx"></div></div>
-    <label>Email * – bit će vidljiv na tvom profilu</label><input id="fE" type="email" value="${esc(O.mail)}" placeholder="ime@primjer.ba">
-    <label>Website, Instagram ili Facebook stranica (nije obavezno)</label><input id="fW" type="url" inputmode="url" value="${esc(O.web)}" placeholder="npr. mojaradionica.ba ili instagram.com/mojaradionica">
-    <label>Logo (nije obavezno)</label>
-    <div class="row"><label class="upbtn" style="margin:0">📷 ${O.logo?"Promijeni logo":"Dodaj logo"}<input type="file" accept="image/*" class="hide" onchange="wLogo(this)"></label>
-      <div class="ups" style="margin:0" id="logoPrev">${O.logoBusy?upTile(""):O.logo?upTile(O.logo,"wLogoDel()"):""}</div></div><div id="logoErr"></div>
-    <label>Kratak opis (šta radiš, rokovi, dostava…)</label><textarea id="fT" placeholder="npr. Printam funkcionalne dijelove u PETG/ASA, dostava BiH 1–2 dana.">${esc(O.note)}</textarea>
-    <input class="hp" id="fH" tabindex="-1" autocomplete="off"><div id="fErr"></div>`+wNav(true,"wSave()","Dalje →");
-  if(st==="printeri")h=bar+`<h2>Tvoji printeri</h2><p class="sub">Dodirni modele koje imaš – radnu plohu upisujemo sami. Nema tvog? Upiši ga ispod.</p>
-    <div class="chips">${Object.keys(PRINTERS).map(n=>`<button class="${O.printers.includes(n)?"on":""}" onclick="wPr('${n}')">${n}</button>`).join("")}</div>
-    <label>Drugi printeri (model i radna ploha ako znaš)</label><input id="fOP" value="${esc(O.otherPrinter)}" placeholder="npr. Voron 2.4 350×350×340">
-    <label style="margin-top:16px">Plastika koju trenutno imaš</label>
-    <div class="g2" style="grid-template-columns:1fr 1fr 90px;gap:8px"><select id="sM">${opts(Object.keys(MATS))}</select><select id="sC">${opts(Object.keys(COLORS))}</select><input id="sGr" type="number" value="1000" step="100" aria-label="grama"></div>
-    <button class="btn lt sm" style="margin-top:8px" onclick="wStock()">+ Dodaj kalem</button>
-    <div style="margin-top:8px">${O.stock.map((s,i)=>`<span class="pill">${esc(s[0])} ${esc(s[1])} · ${s[2]} g <a href="#" style="color:var(--bad);text-decoration:none" onclick="O.stock.splice(${i},1);drawWiz();return false">×</a></span>`).join("")}</div>`
-    +wNav(true,"wKeep();wStep(1)","Dalje →");
-  if(st==="prodaja")h=bar+`<h2>Šta prodaješ?</h2><p class="sub">Konkretne artikle objavi kasnije kroz „Objavi oglas“.</p><div class="chips">${Object.entries(SELLS).map(([k,n])=>`<button class="${O.sells.has(k)?"on":""}" onclick="wSell('${k}')">${n}</button>`).join("")}</div>`+wNav(true,"wStep(1)","Dalje →");
-  if(st==="potvrda"){const r=[...O.roles].map(k=>ROLES[k][1]).join(", ");
-    h=bar+`<h2>Provjeri i pošalji</h2><div style="background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px"><b>${esc(O.name)}</b> · ${esc(O.city)}<br>${esc(O.phone)} · ${esc(O.mail)}${O.web?"<br>🌐 "+esc(O.web):""}${O.logo?"<br>🖼️ logo dodan":""}<br><span class="meta">${esc(r)}</span>
-      ${O.printers.length||O.otherPrinter?`<br>🖨️ ${esc([...O.printers,O.otherPrinter].filter(Boolean).join(", "))}`:""}${O.stock.length?`<br>🧵 ${esc(O.stock.map(s=>s.join(" ")+" g").join(", "))}`:""}${O.sells.size?`<br>🛒 ${esc([...O.sells].map(k=>SELLS[k].slice(2).trim()).join(", "))}`:""}</div>
-      <label class="chk"><input type="checkbox" id="fPub"><span>Saglasan/na sam da se naziv, logo, grad, broj telefona, email, web stranica, opis, printeri i plastika objave na mom javnom profilu. *</span></label>
-      <label class="chk"><input type="checkbox" id="fTerms"><span>Prihvatam <a href="#uslovi" target="_blank">Uslove korištenja</a> i pročitao/la sam <a href="#privatnost" target="_blank">Politiku privatnosti</a>. *</span></label>
-      <label class="chk"><input type="checkbox" id="fNews" checked><span>Želim primati novosti o platformi na email.</span></label><div id="sErr"></div>`+wNav(true,"wSend()","Pošalji prijavu ✓")}
-  $("wiz").innerHTML=h;if(st==="podaci")$("fC").value=O.city}
-function wKeepData(){if($("fN")){O.name=$("fN").value.trim();O.city=$("fC").value;O.phone=$("fP").value.trim();O.mail=$("fE").value.trim();O.web=$("fW").value.trim();O.note=$("fT").value.trim()}}
-window.wLogo=async inp=>{const f=inp.files[0];if(!f)return;wKeepData();O.logoBusy=true;drawWiz();
-  try{O.logo=await uploadImage(f,512)}catch(e){O.logoBusy=false;drawWiz();$("logoErr").innerHTML=`<div class="err">Logo nije poslan: ${esc(e.message)}. Možeš ga poslati i na Viber 061 060 784.</div>`;return}
-  O.logoBusy=false;drawWiz()};
-window.wLogoDel=()=>{wKeepData();O.logo="";drawWiz()};
-window.wRole=k=>{O.roles.has(k)?O.roles.delete(k):O.roles.add(k);drawWiz()};
-window.wPr=n=>{wKeep();const i=O.printers.indexOf(n);i<0?O.printers.push(n):O.printers.splice(i,1);drawWiz()};
-window.wKeep=()=>{if($("fOP"))O.otherPrinter=$("fOP").value.trim()};
-window.wSell=k=>{O.sells.has(k)?O.sells.delete(k):O.sells.add(k);drawWiz()};
-window.wStock=()=>{wKeep();O.stock.push([$("sM").value,$("sC").value,+$("sGr").value||0]);drawWiz()};
-window.wStep=d=>{O.i=Math.max(0,Math.min(wSteps().length-1,O.i+d));drawWiz();$("wiz").scrollIntoView({behavior:"smooth",block:"start"})};
-window.wSave=()=>{if(O.logoBusy){$("fErr").innerHTML=`<div class="err">Sačekaj da se logo pošalje.</div>`;return}wKeepData();O.hp=$("fH").value;
-  const e=[];if(O.name.length<2)e.push("upiši naziv");if(dig(O.phone).length<8)e.push("upiši ispravan broj");if(!/^\S+@\S+\.\S+$/.test(O.mail))e.push("upiši ispravan email");if(O.web&&!webUrl(O.web))e.push("provjeri adresu web stranice");
-  if(e.length){$("fErr").innerHTML=`<div class="err">Provjeri: ${e.join(", ")}.</div>`;return}wStep(1)};
-window.wSend=async()=>{if(!$("fPub").checked||!$("fTerms").checked){$("sErr").innerHTML=`<div class="err">Za objavu profila potrebne su obje saglasnosti označene zvjezdicom.</div>`;return}
-  const b=$("nextBtn");b.disabled=true;b.textContent="Šaljem…";
-  try{await sendForm({_subject:`Nova prijava printadžije – ${O.name} (${O.city})`,_template:"table",_captcha:"false",_replyto:O.mail,_honey:O.hp||"",
-    "Tip":"PRIJAVA PROFILA","Naziv":O.name,"Grad":O.city,"Telefon (Viber/WhatsApp)":O.phone,"Email (javan na profilu)":O.mail,"Web stranica":O.web?webUrl(O.web):"—","Logo":O.logo||"—","Uloge":[...O.roles].map(k=>ROLES[k][1]).join(", "),
-    "Printeri":[...O.printers,O.otherPrinter].filter(Boolean).join(", ")||"—","Plastika":O.stock.map(s=>`${s[0]} ${s[1]} ${s[2]} g`).join(", ")||"—",
-    "Prodaje":[...O.sells].map(k=>SELLS[k].slice(2).trim()).join(", ")||"—","Opis":O.note||"—","Novosti na email":$("fNews").checked?"DA":"NE",
-    "Saglasnost za javni profil":"DA","Prihvatio uslove i politiku":"DA (v1.2)","Vrijeme":now()});
-    O.sent=true;drawWiz()}
-  catch(err){b.disabled=false;b.textContent="Pokušaj ponovo";$("sErr").innerHTML=`<div class="err">Slanje nije uspjelo. Pokušaj ponovo ili nam se javi na Viber 061 060 784.</div>`}};
+/* ================= prijava / registracija / reset ================= */
+function viewLogin(){if(ME){location.hash="moj";return}
+  $("v-prijava").innerHTML=authCard(`<h1>Prijava</h1><p class="sub">Za printadžije i prodavce. Klijentima nalog ne treba.</p>
+  <form id="fLogin" novalidate><label>Email</label><input id="lE" type="email" autocomplete="email" required>${pwField("lP","Lozinka","current-password")}
+  <div id="lErr"></div><button class="btn" id="lBtn" style="width:100%;margin-top:14px">Prijavi se</button></form>
+  <p style="text-align:center;margin:14px 0 0"><a href="#zaboravljena">Zaboravljena lozinka?</a></p>
+  <p style="text-align:center;margin:8px 0 0" class="meta">Nemaš nalog? <a href="#registracija"><b>Registruj se besplatno</b></a></p>`);
+  $("fLogin").onsubmit=e=>{e.preventDefault();withBusy($("lBtn"),"Prijavljujem…",async()=>{
+    try{await api("auth/login",{method:"POST",body:{email:$("lE").value.trim(),password:$("lP").value}});await loadMe();location.hash="moj"}catch(x){errBox("lErr",x.message)}})}}
+function viewRegister(){if(ME){location.hash="moj";return}
+  $("v-registracija").innerHTML=authCard(`<h1>Registracija</h1><p class="sub">Napravi nalog, pa popuni profil printadžije ili prodavača i objavljuj oglase. Besplatno.</p>
+  <form id="fReg" novalidate><label>Email</label><input id="rE" type="email" autocomplete="email" required>
+  ${pwField("rP","Lozinka (najmanje 8 znakova)","new-password")}${pwField("rP2","Ponovi lozinku","new-password")}
+  <label class="chk"><input type="checkbox" id="rT"><span>Prihvatam <a href="#uslovi" target="_blank">Uslove korištenja</a> i pročitao/la sam <a href="#privatnost" target="_blank">Politiku privatnosti</a>.</span></label>
+  <div id="rErr"></div><button class="btn" id="rBtn" style="width:100%;margin-top:8px">Napravi nalog</button></form>
+  <p style="text-align:center;margin:14px 0 0" class="meta">Već imaš nalog? <a href="#prijava"><b>Prijavi se</b></a></p>`);
+  $("fReg").onsubmit=e=>{e.preventDefault();const em=$("rE").value.trim(),p1=$("rP").value,p2=$("rP2").value;
+    if(!/^\S+@\S+\.\S+$/.test(em))return errBox("rErr","Upiši ispravan email.");
+    if(p1.length<8)return errBox("rErr","Lozinka mora imati najmanje 8 znakova.");
+    if(p1!==p2)return errBox("rErr","Lozinke se ne podudaraju.");
+    if(!$("rT").checked)return errBox("rErr","Potrebno je prihvatiti Uslove korištenja.");
+    withBusy($("rBtn"),"Pravim nalog…",async()=>{try{const r=await api("auth/register",{method:"POST",body:{email:em,password:p1,password2:p2,terms:true}});
+      await loadMe();mojTab="profil";location.hash="moj";toast(r.verifySent?"Nalog je napravljen – provjeri email za potvrdu":"Nalog je napravljen")}catch(x){errBox("rErr",x.message)}})}}
+function viewForgot(){
+  $("v-zaboravljena").innerHTML=authCard(`<h1>Zaboravljena lozinka</h1><p class="sub">Upiši email naloga i poslat ćemo ti link za novu lozinku.</p>
+  <form id="fF" novalidate><label>Email</label><input id="fEm" type="email" autocomplete="email" required><div id="fErr2"></div>
+  <button class="btn" id="fBtn" style="width:100%;margin-top:14px">Pošalji link</button></form>
+  <p style="text-align:center;margin:14px 0 0"><a href="#prijava">← Nazad na prijavu</a></p>`);
+  $("fF").onsubmit=e=>{e.preventDefault();withBusy($("fBtn"),"Šaljem…",async()=>{try{await api("auth/forgot",{method:"POST",body:{email:$("fEm").value.trim()}});
+    $("fF").outerHTML=`<div class="okbox">Ako nalog s tim emailom postoji, poslali smo link za novu lozinku. Pogledaj i <b>Spam</b>. Link važi 1 sat.</div>`}catch(x){errBox("fErr2",x.message)}})}}
+let RESET_TOKEN="";
+function viewReset(){
+  $("v-reset").innerHTML=authCard(`<h1>Nova lozinka</h1>${RESET_TOKEN?`<form id="fR" novalidate>${pwField("nP","Nova lozinka (najmanje 8 znakova)","new-password")}${pwField("nP2","Ponovi novu lozinku","new-password")}
+  <div id="nErr"></div><button class="btn" id="nBtn" style="width:100%;margin-top:14px">Sačuvaj novu lozinku</button></form>`:`<div class="err">Link nije ispravan. <a href="#zaboravljena">Zatraži novi.</a></div>`}`);
+  if(!RESET_TOKEN)return;
+  $("fR").onsubmit=e=>{e.preventDefault();const p1=$("nP").value,p2=$("nP2").value;
+    if(p1.length<8)return errBox("nErr","Lozinka mora imati najmanje 8 znakova.");if(p1!==p2)return errBox("nErr","Lozinke se ne podudaraju.");
+    withBusy($("nBtn"),"Čuvam…",async()=>{try{await api("auth/reset",{method:"POST",body:{token:RESET_TOKEN,password:p1,password2:p2}});RESET_TOKEN="";await loadMe();location.hash="moj";toast("Nova lozinka je sačuvana")}catch(x){errBox("nErr",x.message)}})}}
 
-/* ---------- objavi oglas ---------- */
-let adImgs=[],adBusy=0;
-function drawAdImgs(){$("aImgs").innerHTML=adImgs.map((s,i)=>upTile(s,`adImgDel(${i})`)).join("")+Array(adBusy).fill(upTile("")).join("");$("aAdd").classList.toggle("hide",adImgs.length+adBusy>=5)}
-window.adImgDel=i=>{adImgs.splice(i,1);drawAdImgs()};
-function drawAdForm(done){
-  if(done){$("adForm").innerHTML=`<div class="okbox"><div style="font-size:42px">✅</div><h2 style="color:#05603a">Oglas je poslan!</h2><p style="margin:6px 0 0">Pregledamo ga i objavimo – obično isti ili sljedeći dan. Hvala!</p></div><div class="row" style="justify-content:center;margin-top:12px"><button class="btn lt" onclick="drawAdForm()">Objavi još jedan</button></div>`;return}
-  $("adForm").innerHTML=`<label>Odjel *</label><select id="aCat">${Object.entries(CATS).map(([k,[i,n]])=>`<option value="${k}">${i} ${n}</option>`).join("")}</select>
-  <label>Naslov *</label><input id="aT" placeholder="npr. eSun PETG 1 kg – crna">
-  <div class="g2"><div><label>Cijena *</label><input id="aP" placeholder="npr. 38 KM ili Po dogovoru"></div><div><label>Stanje</label><select id="aS"><option>Novo</option><option>Polovno</option></select></div></div>
-  <div class="g2" id="aMatBox"><div><label>Materijal</label><select id="aM"></select></div><div><label>Boja</label><select id="aCol">${opts(Object.keys(COLORS),"—")}</select></div></div>
-  <label>Opis</label><textarea id="aD" placeholder="Količina, stanje, dostava, kompatibilnost…"></textarea>
-  <label>Slike (do 5)</label><div class="ups" id="aImgs"></div>
-  <label class="upbtn" id="aAdd" style="margin-top:8px">📷 Dodaj slike<input type="file" accept="image/*" multiple class="hide" id="aFile"></label><div id="aImgErr"></div>
-  <div class="g2"><div><label>Ime ili naziv prodavača *</label><input id="aN"></div><div><label>Grad *</label><select id="aC">${opts(CITIES)}</select></div></div>
-  <div class="g2"><div><label>Broj (Viber / WhatsApp) * – bit će javan</label><input id="aPh" type="tel" placeholder="+387 6x xxx xxx"></div><div><label>Email * – ne objavljuje se</label><input id="aE" type="email"></div></div>
-  <input class="hp" id="aH" tabindex="-1" autocomplete="off">
-  <label class="chk"><input type="checkbox" id="aOk"><span>Potvrđujem da je oglas tačan, da imam pravo na objavljene slike, saglasan/na sam s objavom navedenih podataka i prihvatam <a href="#uslovi" target="_blank">Uslove korištenja</a> i <a href="#privatnost" target="_blank">Politiku privatnosti</a>. *</span></label>
-  <div id="aErr"></div><button class="btn" id="aGo" style="width:100%;margin-top:8px">Pošalji oglas ✓</button>`;
-  const upd=()=>{const c=$("aCat").value,show=c==="filament"||c==="resin";$("aMatBox").classList.toggle("hide",!show);$("aM").innerHTML=opts(Object.keys(MATS).filter(m=>MATS[m][1]===(c==="resin"?"SLA":"FDM")),"—")};
-  $("aCat").onchange=upd;upd();
-  adImgs=[];adBusy=0;drawAdImgs();
-  $("aFile").onchange=async e=>{const files=[...e.target.files].slice(0,5-adImgs.length-adBusy);e.target.value="";$("aImgErr").innerHTML="";
-    await Promise.all(files.map(async f=>{adBusy++;drawAdImgs();try{adImgs.push(await uploadImage(f,1280))}catch(err){$("aImgErr").innerHTML=`<div class="err">Neka slika nije poslana: ${esc(err.message)}</div>`}finally{adBusy--;drawAdImgs()}}))};
-  $("aGo").onclick=async()=>{const v=id=>$(id).value.trim(),e=[];
-    if(v("aT").length<3)e.push("naslov");if(!v("aP"))e.push("cijena");if(v("aN").length<2)e.push("ime prodavača");if(dig(v("aPh")).length<8)e.push("broj telefona");if(!/^\S+@\S+\.\S+$/.test(v("aE")))e.push("email");
-    if(e.length){$("aErr").innerHTML=`<div class="err">Popuni: ${e.join(", ")}.</div>`;return}
-    if(!$("aOk").checked){$("aErr").innerHTML=`<div class="err">Potrebno je potvrditi uslove.</div>`;return}
-    if(adBusy){$("aErr").innerHTML=`<div class="err">Sačekaj da se slike pošalju.</div>`;return}
-    const b=$("aGo");b.disabled=true;b.textContent="Šaljem…";const c=$("aCat").value,mat=c==="filament"||c==="resin";
-    try{await sendForm({_subject:`Novi oglas – ${v("aT")} (${v("aN")})`,_template:"table",_captcha:"false",_replyto:v("aE"),_honey:$("aH").value,
-      "Tip":"OGLAS","Odjel":CATS[c][1],"Naslov":v("aT"),"Cijena":v("aP"),"Stanje":v("aS"),"Materijal":mat?v("aM")||"—":"—","Boja":mat?v("aCol")||"—":"—","Opis":v("aD")||"—",
-      "Slike":adImgs.join(" , ")||"—","Prodavač":v("aN"),"Grad":v("aC"),"Telefon":v("aPh"),"Email (ne objavljuje se)":v("aE"),"Prihvatio uslove":"DA (v1.2)","Vrijeme":now()});drawAdForm(true)}
-    catch(err){b.disabled=false;b.textContent="Pokušaj ponovo";$("aErr").innerHTML=`<div class="err">Slanje nije uspjelo. Pokušaj ponovo ili nam se javi na Viber 061 060 784.</div>`}};
-}
-window.drawAdForm=drawAdForm;
+/* ================= MOJ PROFIL ================= */
+let mojTab="profil",PF=null,EDIT=null;
+const ROLE_LBL={printer:"🖨️ Printam za druge",seller:"🛒 Prodajem plastiku, printere ili dijelove"};
+const SELL_LBL={filament:"🧵 Filament",resin:"🧪 Resin",oprema:"🖨️ Printeri i oprema",dijelovi:"🔩 Rezervni dijelovi"};
+async function viewMoj(){
+  if(!ME)await loadMe();
+  if(!ME){location.hash="prijava";return}
+  const u=ME.user,p=ME.profile;
+  let ban="";
+  if(!u.verified)ban+=`<div class="banner warn">📧 Potvrdi email <b>${esc(u.email)}</b> – poslali smo ti link. ${u.mail?`<a href="#" onclick="resendVerify();return false">Pošalji ponovo</a>`:""}</div>`;
+  if(p&&p.status==="pending")ban+=`<div class="banner info">⏳ Tvoj profil čeka odobrenje – obično isti ili sljedeći dan. Možeš već dodavati oglase; postaju javni kad odobrimo profil.</div>`;
+  if(p&&p.status==="approved")ban+=`<div class="banner ok">✓ Profil je javan. <a href="#p-${esc(p.id)}">Pogledaj kako ga vide drugi →</a></div>`;
+  if(p&&p.status==="hidden")ban+=`<div class="banner warn">Profil je trenutno sakriven. Za pitanja piši na info.3dprinted@gmail.com.</div>`;
+  if(!p)ban+=`<div class="banner info">👋 Dobro došao/la! Popuni profil da te klijenti i kupci mogu pronaći.</div>`;
+  const tabs=[["profil","Profil"],["oglasi",`Moji oglasi${ME.ads.length?` (${ME.ads.length})`:""}`],["statistika","Statistika"],["postavke","Postavke"]];
+  $("v-moj").innerHTML=`<div class="row" style="justify-content:space-between"><div class="ph">${p?avatar({naziv:p.naziv,logo:p.logo}):'<div class="av">👤</div>'}<div><h1 style="font-size:22px">${p?esc(p.naziv):"Moj profil"}</h1><div class="meta">${esc(u.email)}</div></div></div>${u.admin?'<a class="btn sm lt" href="#admin">⚙️ Admin</a>':""}</div>
+  <div style="margin-top:12px">${ban}</div>
+  <div class="tabs">${tabs.map(([k,n])=>`<button class="${mojTab===k?"on":""}" onclick="mojTab='${k}';EDIT=null;viewMoj()">${n}</button>`).join("")}</div>
+  <div id="mojBody"></div>`;
+  ({profil:tabProfil,oglasi:tabOglasi,statistika:tabStats,postavke:tabSettings})[mojTab]()}
+window.resendVerify=async()=>{try{await api("auth/resend",{method:"POST",body:{}});toast("Poslali smo novi link – pogledaj i Spam")}catch(x){toast(x.message)}};
+
+/* ---------- profil ---------- */
+function tabProfil(){
+  const p=ME.profile;
+  if(!PF||PF._for!==(p?p.id:"new")){const known=p?p.printeri.filter(n=>PRINTERS[n]):[],other=p?p.printeri.filter(n=>!PRINTERS[n]):[];
+    PF={_for:p?p.id:"new",uloge:new Set(p?p.uloge:[]),naziv:p?p.naziv:"",grad:p?p.grad:"Sarajevo",telefon:p?p.telefon:"",email:p?p.email:ME.user.email,web:p?p.web:"",opis:p?p.opis:"",logo:p?p.logo:"",logoBusy:false,
+      printeri:known,drugi:other.join(", "),plastika:p?p.plastika.map(x=>[...x]):[],prodaje:new Set(p?p.prodaje:[])}}
+  const F=PF,isP=F.uloge.has("printer"),isS=F.uloge.has("seller");
+  $("mojBody").innerHTML=`<div class="card"><h2>Šta radiš?</h2><div class="chips">${Object.entries(ROLE_LBL).map(([k,n])=>`<button type="button" class="${F.uloge.has(k)?"on":""}" onclick="pfKeep();PF.uloge.has('${k}')?PF.uloge.delete('${k}'):PF.uloge.add('${k}');tabProfil()">${n}</button>`).join("")}</div></div>
+  <div class="card"><h2>Osnovni podaci</h2>
+    <div class="row" style="gap:14px;align-items:center">${avatar({naziv:F.naziv||"?",logo:F.logo},true)}<div>
+      <label class="upbtn" style="margin:0">📷 ${F.logo?"Promijeni sliku/logo":"Dodaj sliku ili logo"}<input type="file" accept="image/*" class="hide" onchange="pfLogo(this)"></label>
+      ${F.logoBusy?'<div class="meta" style="margin-top:6px">šaljem…</div>':F.logo?'<div style="margin-top:6px"><a href="#" onclick="pfKeep();PF.logo=\'\';tabProfil();return false">Ukloni sliku</a></div>':""}<div id="pfLogoErr"></div></div></div>
+    <label>Naziv radionice/firme ili ime *</label><input id="pN" value="${esc(F.naziv)}" placeholder="npr. PrintLab Tuzla">
+    <div class="g2"><div><label>Grad *</label><select id="pC">${opts(CITIES)}</select></div><div><label>Broj (Viber / WhatsApp) *</label><input id="pT" type="tel" value="${esc(F.telefon)}" placeholder="+387 6x xxx xxx"></div></div>
+    <div class="g2"><div><label>Email na profilu</label><input id="pE" type="email" value="${esc(F.email)}"></div><div><label>Web / Instagram / Facebook</label><input id="pW" value="${esc(F.web)}" placeholder="npr. instagram.com/mojaradionica"></div></div>
+    <label>Opis</label><textarea id="pO" placeholder="Šta radiš, rokovi, dostava…">${esc(F.opis)}</textarea></div>
+  ${isP?`<div class="card"><h2>🖨️ Printeri</h2><p class="sub" style="margin-bottom:8px">Dodirni modele koje imaš – radna ploha se upisuje sama.</p>
+    <div class="chips">${Object.keys(PRINTERS).map(n=>`<button type="button" class="${F.printeri.includes(n)?"on":""}" onclick="pfKeep();const i=PF.printeri.indexOf('${n}');i<0?PF.printeri.push('${n}'):PF.printeri.splice(i,1);tabProfil()">${n}</button>`).join("")}</div>
+    <label>Drugi printeri (odvoji zarezom)</label><input id="pD" value="${esc(F.drugi)}" placeholder="npr. Voron 2.4 350, Artillery Sidewinder X2"></div>
+  <div class="card"><h2>🧵 Plastika na stanju</h2><p class="sub" style="margin-bottom:8px">Ažuriraj kad se promijeni – po ovome te klijenti nalaze.</p>
+    ${F.plastika.map((s,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><select onchange="PF.plastika[${i}][0]=this.value">${Object.keys(MATS).map(m=>`<option ${m===s[0]?"selected":""}>${m}</option>`).join("")}</select>
+      <select onchange="PF.plastika[${i}][1]=this.value">${Object.keys(COLORS).map(c=>`<option ${c===s[1]?"selected":""}>${c}</option>`).join("")}</select>
+      <input type="number" min="0" step="100" value="${s[2]}" onchange="PF.plastika[${i}][2]=+this.value" style="max-width:96px" aria-label="grama"><button type="button" class="x" onclick="pfKeep();PF.plastika.splice(${i},1);tabProfil()" aria-label="Ukloni">×</button></div>`).join("")}
+    <button type="button" class="btn sm lt" onclick="pfKeep();PF.plastika.push(['PLA','Crna',1000]);tabProfil()">+ Dodaj kalem</button></div>`:""}
+  ${isS?`<div class="card"><h2>🛒 Šta prodaješ?</h2><div class="chips">${Object.entries(SELL_LBL).map(([k,n])=>`<button type="button" class="${F.prodaje.has(k)?"on":""}" onclick="pfKeep();PF.prodaje.has('${k}')?PF.prodaje.delete('${k}'):PF.prodaje.add('${k}');tabProfil()">${n}</button>`).join("")}</div></div>`:""}
+  <div id="pErr"></div>
+  <div class="row"><button class="btn" id="pSave">${p?"💾 Sačuvaj izmjene":"Sačuvaj i pošalji na odobrenje"}</button>${p&&isP?`<button class="btn lt" id="pConfirm">✅ Stanje je tačno – potvrdi za danas</button>`:""}</div>
+  ${p?`<p class="meta">Zadnja potvrda stanja: ${fmtDate(p.azurirano)||"—"}</p>`:""}`;
+  $("pC").value=F.grad;
+  $("pSave").onclick=()=>withBusy($("pSave"),"Čuvam…",saveProfile);
+  if($("pConfirm"))$("pConfirm").onclick=()=>withBusy($("pConfirm"),"…",async()=>{try{await api("me/confirm",{method:"POST",body:{}});await loadMe();toast("Stanje potvrđeno za danas");viewMoj()}catch(x){toast(x.message)}})}
+window.pfKeep=()=>{if(!$("pN"))return;PF.naziv=$("pN").value;PF.grad=$("pC").value;PF.telefon=$("pT").value;PF.email=$("pE").value;PF.web=$("pW").value;PF.opis=$("pO").value;if($("pD"))PF.drugi=$("pD").value};
+window.pfLogo=async inp=>{const f=inp.files[0];if(!f)return;pfKeep();PF.logoBusy=true;tabProfil();
+  try{PF.logo=await uploadImage(f,512)}catch(x){PF.logoBusy=false;tabProfil();errBox("pfLogoErr",x.message);return}PF.logoBusy=false;tabProfil()};
+async function saveProfile(){pfKeep();const F=PF;
+  if(F.logoBusy)return errBox("pErr","Sačekaj da se slika pošalje.");
+  const printeri=[...F.printeri,...F.drugi.split(",").map(s=>s.trim()).filter(Boolean)];
+  try{const r=await api("me/profile",{method:"PUT",body:{uloge:[...F.uloge],naziv:F.naziv,grad:F.grad,telefon:F.telefon,email:F.email,web:F.web,opis:F.opis,logo:F.logo,
+      printeri:F.uloge.has("printer")?printeri:[],plastika:F.uloge.has("printer")?F.plastika:[],prodaje:F.uloge.has("seller")?[...F.prodaje]:[]}});
+    errBox("pErr","");PF=null;await loadMe();await loadPublic();toast(r.status==="pending"?"Profil je poslan na odobrenje":"Profil je sačuvan");viewMoj()}
+  catch(x){errBox("pErr",x.message)}}
+
+/* ---------- moji oglasi ---------- */
+const ST_LBL={active:'<span class="pill ok">Aktivan</span>',sold:'<span class="pill">Prodano</span>',hidden:'<span class="pill warn">Sakriven</span>'};
+async function tabOglasi(){
+  if(!ME.profile){$("mojBody").innerHTML=`<div class="card empty">Prvo popuni <a href="#" onclick="mojTab='profil';viewMoj();return false">profil</a>, pa objavljuj oglase.</div>`;return}
+  if(EDIT)return adEditor();
+  if(!MESTATS)try{MESTATS=await api("me/stats")}catch{MESTATS={totals:[]}}
+  const tot=id=>{const t=(MESTATS.totals||[]).find(x=>x.kind==="o"&&x.ref===id);return t?[t.v||0,t.c||0]:[0,0]};
+  $("mojBody").innerHTML=`<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${ME.ads.length} ${ME.ads.length===1?"oglas":"oglasa"}</b><button class="btn sm" onclick="EDIT={};viewMoj()">+ Novi oglas</button></div>
+  ${ME.ads.map(a=>{const [v,c]=tot(a.id),img=(a.slike||[])[0];return `<div class="ad"><div class="thumb">${img?`<img src="${esc(img)}" alt="">`:(CATS[a.kategorija]||["📦"])[0]}</div><div style="flex:1;min-width:0">
+    <div class="row" style="justify-content:space-between;align-items:flex-start"><b>${esc(a.naslov)}</b><span class="price">${esc(a.cijena)}</span></div>
+    <div>${ST_LBL[a.status]||""}<span class="pill">👁 ${v} pregleda</span><span class="pill">📞 ${c} kontakata</span></div>
+    <div class="acts"><button class="btn sm lt" onclick="EDIT=ME.ads.find(x=>x.id==='${a.id}');viewMoj()">✏️ Uredi</button>
+      ${a.status==="active"?`<button class="btn sm lt" onclick="adStatus('${a.id}','sold')">✓ Prodano</button>`:a.status==="sold"?`<button class="btn sm lt" onclick="adStatus('${a.id}','active')">↺ Ponovo aktiviraj</button>`:""}
+      ${a.status==="active"&&ME.profile.status==="approved"?`<a class="btn sm lt" href="#o-${a.id}">Pogledaj</a>`:""}
+      <button class="btn sm lt" style="color:var(--bad)" onclick="adDelete('${a.id}')">Obriši</button></div></div></div>`}).join("")||`<div class="card empty">Nemaš oglasa. Prodaješ plastiku, printer ili dijelove? Objavi oglas.</div>`}`}
+window.adStatus=async(id,s)=>{try{await api("me/ads/"+id,{method:"PUT",body:{status:s}});await loadMe();await loadPublic();toast(s==="sold"?"Označeno kao prodano":"Oglas je ponovo aktivan");viewMoj()}catch(x){toast(x.message)}};
+window.adDelete=async id=>{if(!confirm("Obrisati oglas? Ovo se ne može vratiti."))return;try{await api("me/ads/"+id,{method:"DELETE"});await loadMe();await loadPublic();toast("Oglas je obrisan");viewMoj()}catch(x){toast(x.message)}};
+let AE=null;
+function adEditor(){const a=EDIT;if(!AE||AE._for!==(a.id||"new"))AE={_for:a.id||"new",kategorija:a.kategorija||"filament",naslov:a.naslov||"",cijena:a.cijena||"",stanje:a.stanje||"Novo",materijal:a.materijal||"",boja:a.boja||"",opis:a.opis||"",slike:[...(a.slike||[])],busy:0};
+  const E=AE,mat=E.kategorija==="filament"||E.kategorija==="resin";
+  $("mojBody").innerHTML=`<a class="back" href="#" onclick="EDIT=null;AE=null;viewMoj();return false">← Moji oglasi</a><div class="card"><h2>${a.id?"Uredi oglas":"Novi oglas"}</h2>
+  <label>Odjel *</label><select id="eCat">${Object.entries(CATS).map(([k,[i,n]])=>`<option value="${k}" ${k===E.kategorija?"selected":""}>${i} ${n}</option>`).join("")}</select>
+  <label>Naslov *</label><input id="eT" value="${esc(E.naslov)}" placeholder="npr. eSun PETG 1 kg – crna">
+  <div class="g2"><div><label>Cijena *</label><input id="eP" value="${esc(E.cijena)}" placeholder="npr. 38 KM ili Po dogovoru"></div><div><label>Stanje</label><select id="eS"><option ${E.stanje==="Novo"?"selected":""}>Novo</option><option ${E.stanje==="Polovno"?"selected":""}>Polovno</option></select></div></div>
+  ${mat?`<div class="g2"><div><label>Materijal</label><select id="eM">${opts(Object.keys(MATS).filter(m=>MATS[m][1]===(E.kategorija==="resin"?"SLA":"FDM")),"—")}</select></div><div><label>Boja</label><select id="eC">${opts(Object.keys(COLORS),"—")}</select></div></div>`:""}
+  <label>Opis</label><textarea id="eD" placeholder="Količina, stanje, dostava, kompatibilnost…">${esc(E.opis)}</textarea>
+  <label>Slike (do 5) – prva je naslovna</label><div class="ups" id="eImgs"></div>
+  <label class="upbtn ${E.slike.length+E.busy>=5?"hide":""}" id="eAdd" style="margin-top:8px">📷 Dodaj slike<input type="file" accept="image/*" multiple class="hide" id="eFile"></label>
+  <div id="eErr"></div><button class="btn" id="eSave" style="width:100%;margin-top:14px">${a.id?"💾 Sačuvaj izmjene":"Objavi oglas"}</button>
+  ${ME.profile.status!=="approved"?'<p class="meta">Oglas postaje javan kad odobrimo tvoj profil.</p>':""}</div>`;
+  if(mat){$("eM").value=E.materijal;$("eC").value=E.boja}
+  const keep=()=>{E.kategorija=$("eCat").value;E.naslov=$("eT").value;E.cijena=$("eP").value;E.stanje=$("eS").value;E.opis=$("eD").value;if($("eM")){E.materijal=$("eM").value;E.boja=$("eC").value}};
+  const drawImgs=()=>{$("eImgs").innerHTML=E.slike.map((s,i)=>upTile(s,`AE.slike.splice(${i},1);adEditorImgs()`)).join("")+Array(E.busy).fill(upTile("")).join("");$("eAdd").classList.toggle("hide",E.slike.length+E.busy>=5)};
+  window.adEditorImgs=drawImgs;drawImgs();
+  $("eCat").onchange=()=>{keep();E.materijal="";E.boja="";adEditor()};
+  $("eFile").onchange=async ev=>{const files=[...ev.target.files].slice(0,5-E.slike.length-E.busy);ev.target.value="";errBox("eErr","");
+    await Promise.all(files.map(async f=>{E.busy++;drawImgs();try{E.slike.push(await uploadImage(f,1280))}catch(x){errBox("eErr",x.message)}finally{E.busy--;drawImgs()}}))};
+  $("eSave").onclick=()=>{keep();if(E.busy)return errBox("eErr","Sačekaj da se slike pošalju.");
+    withBusy($("eSave"),"Čuvam…",async()=>{const body={kategorija:E.kategorija,naslov:E.naslov,cijena:E.cijena,stanje:E.stanje,materijal:E.materijal,boja:E.boja,opis:E.opis,slike:E.slike};
+      try{if(a.id)await api("me/ads/"+a.id,{method:"PUT",body});else await api("me/ads",{method:"POST",body});
+        EDIT=null;AE=null;MESTATS=null;await loadMe();await loadPublic();toast(a.id?"Oglas je sačuvan":"Oglas je objavljen");viewMoj()}catch(x){errBox("eErr",x.message)}})}}
+
+/* ---------- statistika ---------- */
+async function tabStats(){$("mojBody").innerHTML=`<div class="card empty">Učitavam…</div>`;
+  try{MESTATS=await api("me/stats")}catch(x){$("mojBody").innerHTML=`<div class="card empty">${esc(x.message)}</div>`;return}
+  const S=MESTATS,days=[];for(let i=29;i>=0;i--)days.push(new Date(Date.now()-i*864e5).toISOString().slice(0,10));
+  const by=d=>S.rows.filter(r=>r.day===d).reduce((a,r)=>[a[0]+r.views,a[1]+r.contacts],[0,0]);
+  const series=days.map(by),max=Math.max(1,...series.map(s=>s[0]));
+  const sum=(k,col)=>(S.totals||[]).filter(t=>t.kind===k).reduce((a,t)=>a+(t[col]||0),0);
+  const last30=series.reduce((a,s)=>[a[0]+s[0],a[1]+s[1]],[0,0]);
+  $("mojBody").innerHTML=`<div class="grid4">
+    <div class="stat"><div class="l">Pregledi profila</div><div class="v">${sum("p","v")}</div></div>
+    <div class="stat"><div class="l">Pregledi oglasa</div><div class="v">${sum("o","v")}</div></div>
+    <div class="stat"><div class="l">Kontakti (Viber, WhatsApp, poziv, email)</div><div class="v">${sum("p","c")+sum("o","c")}</div></div>
+    <div class="stat"><div class="l">Pregledi zadnjih 30 dana</div><div class="v">${last30[0]}</div></div></div>
+  <div class="card" style="margin-top:12px"><h2>Pregledi po danu (30 dana)</h2>
+    <div class="bars">${series.map((s,i)=>`<div class="bar" title="${fmtDate(days[i])}: ${s[0]} pregleda, ${s[1]} kontakata"><span style="height:${Math.round(s[0]/max*100)}%"></span></div>`).join("")}</div>
+    <div class="row meta" style="justify-content:space-between"><span>${fmtDate(days[0])}</span><span>danas</span></div></div>
+  <div class="card"><h2>Po oglasu</h2>${S.ads.length?`<table class="tbl"><thead><tr><th>Oglas</th><th>👁</th><th>📞</th></tr></thead><tbody>${S.ads.map(a=>{const t=(S.totals||[]).find(x=>x.kind==="o"&&x.ref===a.id)||{};return `<tr><td>${esc(a.naslov)}</td><td>${t.v||0}</td><td>${t.c||0}</td></tr>`}).join("")}</tbody></table>`:'<div class="meta">Još nema oglasa.</div>'}</div>
+  <p class="meta">Brojimo jedan pregled po posjetiocu po danu. Kontakt je klik na Viber, WhatsApp, poziv ili email.</p>`}
+
+/* ---------- postavke ---------- */
+function tabSettings(){const u=ME.user;
+  $("mojBody").innerHTML=`<div class="card"><h2>Nalog</h2><div class="kv"><b>Email</b><span>${esc(u.email)} ${u.verified?'<span class="pill ok">✓ potvrđen</span>':`<span class="pill warn">nije potvrđen</span> ${u.mail?'<a href="#" onclick="resendVerify();return false">pošalji link ponovo</a>':""}`}</span></div>
+    <div class="row" style="margin-top:12px"><button class="btn lt" id="sOut">Odjavi se</button></div></div>
+  <div class="card"><h2>Promjena lozinke</h2><form id="fPw" novalidate>${pwField("sO","Trenutna lozinka","current-password")}${pwField("sN","Nova lozinka","new-password")}${pwField("sN2","Ponovi novu lozinku","new-password")}
+    <div id="sErr"></div><button class="btn" id="sPwBtn" style="margin-top:12px">Promijeni lozinku</button></form></div>
+  <div class="card"><h2 style="color:var(--bad)">Brisanje naloga</h2><p class="sub" style="margin-bottom:8px">Trajno briše nalog, profil i sve oglase. Ne može se vratiti.</p>
+    ${pwField("sD","Upiši lozinku za potvrdu","current-password")}<div id="sDErr"></div><button class="btn lt" id="sDel" style="margin-top:12px;color:var(--bad)">Obriši moj nalog</button></div>`;
+  $("sOut").onclick=async()=>{try{await api("auth/logout",{method:"POST",body:{}})}catch{}ME=null;MESTATS=null;PF=null;updAcct();toast("Odjavljen/a si");location.hash="trazi"};
+  $("fPw").onsubmit=e=>{e.preventDefault();const n1=$("sN").value,n2=$("sN2").value;if(n1.length<8)return errBox("sErr","Nova lozinka mora imati najmanje 8 znakova.");if(n1!==n2)return errBox("sErr","Lozinke se ne podudaraju.");
+    withBusy($("sPwBtn"),"Čuvam…",async()=>{try{await api("me/password",{method:"POST",body:{old:$("sO").value,password:n1,password2:n2}});errBox("sErr","");$("fPw").reset();toast("Lozinka je promijenjena")}catch(x){errBox("sErr",x.message)}})};
+  $("sDel").onclick=()=>{if(!confirm("Sigurno želiš trajno obrisati nalog, profil i sve oglase?"))return;
+    withBusy($("sDel"),"Brišem…",async()=>{try{await api("me/delete",{method:"POST",body:{password:$("sD").value}});ME=null;updAcct();await loadPublic();toast("Nalog je obrisan");location.hash="trazi"}catch(x){errBox("sDErr",x.message)}})}}
+
+/* ================= ADMIN ================= */
+async function viewAdmin(){
+  if(!ME)await loadMe();
+  if(!ME||!ME.user.admin){$("v-admin").innerHTML=`<div class="card empty">Samo za administratora.</div>`;return}
+  $("v-admin").innerHTML=`<h1>⚙️ Admin</h1><div class="card empty">Učitavam…</div>`;
+  let D;try{D=await api("admin")}catch(x){$("v-admin").innerHTML=`<h1>⚙️ Admin</h1><div class="card empty">${esc(x.message)}</div>`;return}
+  const pend=D.profiles.filter(p=>p.status==="pending"),rest=D.profiles.filter(p=>p.status!=="pending");
+  const v7=D.stats.reduce((a,s)=>a+(s.v||0),0),c7=D.stats.reduce((a,s)=>a+(s.c||0),0);
+  const pCard=p=>`<div class="ad" style="display:block"><div class="hd">${avatar(p)}<div style="flex:1;min-width:0"><b>${esc(p.naziv)}</b> <span class="meta">· ${esc(p.grad)} · ${esc(p.telefon)}</span>
+    <div class="meta">${esc(p.email||"")}${p.login?` · nalog: ${esc(p.login)} ${p.verified?"✓":"(email nepotvrđen)"}`:" · bez naloga"}${p.web?` · ${esc(p.web)}`:""}</div>
+    <div class="meta">${esc((p.uloge||[]).map(r=>({printer:"printa",seller:"prodaje"})[r]).join(", "))}${p.printeri.length?" · "+esc(p.printeri.join(", ")):""}</div>
+    ${p.opis?`<div class="meta">${esc(p.opis.slice(0,200))}</div>`:""}</div></div>
+    <div class="acts">${p.status!=="approved"?`<button class="btn sm" onclick="admP('${p.id}',{status:'approved'})">✓ Odobri</button>`:""}${p.status!=="hidden"?`<button class="btn sm lt" onclick="admP('${p.id}',{status:'hidden'})">Sakrij</button>`:""}
+      <button class="btn sm lt" onclick="admP('${p.id}',{izdvojen:${!p.izdvojen}})">${p.izdvojen?"★ Ukloni izdvajanje":"☆ Izdvoji"}</button>${p.status==="approved"?`<a class="btn sm lt" href="#p-${p.id}">Pogledaj</a>`:""}
+      <a class="btn sm vb" href="viber://chat?number=%2B${dig(p.telefon)}">Viber</a></div></div>`;
+  $("v-admin").innerHTML=`<h1>⚙️ Admin</h1>
+  <div class="grid4"><div class="stat"><div class="l">Nalozi</div><div class="v">${D.users}</div></div><div class="stat"><div class="l">Profili (javni)</div><div class="v">${D.profiles.filter(p=>p.status==="approved").length}</div></div>
+    <div class="stat"><div class="l">Pregledi, 7 dana</div><div class="v">${v7}</div></div><div class="stat"><div class="l">Kontakti, 7 dana</div><div class="v">${c7}</div></div></div>
+  <div class="card" style="margin-top:12px"><h2>⏳ Čeka odobrenje (${pend.length})</h2>${pend.map(pCard).join("")||'<div class="meta">Nema novih profila.</div>'}</div>
+  <div class="card"><h2>Svi profili</h2>${rest.map(p=>`<div style="margin-bottom:4px">${p.status==="hidden"?'<span class="pill warn">sakriven</span>':""}</div>`+pCard(p)).join("")}</div>
+  <div class="card"><h2>Oglasi (zadnjih 200)</h2>${D.ads.map(a=>`<div class="row" style="justify-content:space-between;border-top:1px solid var(--line);padding:8px 0"><div style="min-width:0;flex:1"><b>${esc(a.naslov)}</b> · ${esc(a.cijena)}<div class="meta">${esc(a.prodavac)} · ${ST_LBL[a.status]||esc(a.status)}${a.izdvojen?' <span class="pill gold">★</span>':""}</div></div>
+    <div class="row">${a.status==="hidden"?`<button class="btn sm lt" onclick="admA('${a.id}',{status:'active'})">Vrati</button>`:`<button class="btn sm lt" onclick="admA('${a.id}',{status:'hidden'})">Sakrij</button>`}<button class="btn sm lt" onclick="admA('${a.id}',{izdvojen:${!a.izdvojen}})">${a.izdvojen?"★":"☆"}</button><a class="btn sm lt" href="#o-${a.id}">👁</a></div></div>`).join("")||'<div class="meta">Nema oglasa.</div>'}</div>`}
+window.admP=async(id,b)=>{try{await api("admin/profile",{method:"POST",body:{id,...b}});await loadPublic();toast("Sačuvano");viewAdmin()}catch(x){toast(x.message)}};
+window.admA=async(id,b)=>{try{await api("admin/ad",{method:"POST",body:{id,...b}});await loadPublic();toast("Sačuvano");viewAdmin()}catch(x){toast(x.message)}};
+
 
 /* ---------- rute ---------- */
-const VIEWS={trazi:runSearch,printadzije:renderAll,oglasi:renderAds,prijava:drawWiz,objavi:()=>{if(!$("aT")&&!$("adForm").innerHTML)drawAdForm()},uslovi:()=>{},privatnost:()=>{}};
+const VIEWS={trazi:runSearch,printadzije:renderAll,oglasi:renderAds,sacuvano:viewSaved,prijava:viewLogin,registracija:viewRegister,zaboravljena:viewForgot,reset:viewReset,moj:viewMoj,admin:viewAdmin,
+  objavi:()=>{if(ME){mojTab="oglasi";EDIT={};location.hash="moj"}else{location.hash="registracija"}},uslovi:()=>{},privatnost:()=>{}};
 const BASE_TITLE=document.title;
 function route(){let v=(location.hash||"#trazi").slice(1);document.title=BASE_TITLE;
   if(/^p-[a-z0-9-]+$/.test(v)){show("profil");profilePage(v.slice(2));return}
   if(/^o-[a-z0-9-]+$/.test(v)){show("oglas");adPage(v.slice(2));return}
   if(!VIEWS[v])v="trazi";
-  show(v);VIEWS[v]();window.scrollTo(0,0)}
-function show(v){[...Object.keys(VIEWS),"profil","oglas"].forEach(x=>$("v-"+x).classList.toggle("hide",x!==v));
-  const navKey={profil:"printadzije",oglas:"oglasi"}[v]||v;
+  show(v);window.scrollTo(0,0);VIEWS[v]()}
+function show(v){const all=[...Object.keys(VIEWS).filter(x=>x!=="objavi"),"profil","oglas"];all.forEach(x=>$("v-"+x).classList.toggle("hide",x!==v));
+  const navKey={profil:"printadzije",oglas:"oglasi",registracija:"prijava",zaboravljena:"prijava",reset:"prijava"}[v]||v;
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+navKey))}
-document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.getAttribute&&e.target.getAttribute("role")==="link")e.target.click()});
 window.addEventListener("hashchange",route);
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.getAttribute&&e.target.getAttribute("role")==="link")e.target.click()});
 $("sMat").innerHTML=opts(Object.keys(MATS),"Bilo koji");$("sCol").innerHTML=opts(Object.keys(COLORS),"Bilo koja");$("sCity").innerHTML=opts(CITIES.filter(c=>c!=="Drugi grad"),"Cijela BiH");
 load();
 </script>

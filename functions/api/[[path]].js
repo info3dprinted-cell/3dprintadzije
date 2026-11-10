@@ -331,7 +331,7 @@ export async function onRequest(ctx) {
     }
     if (R("POST", "auth/forgot")) {
       if (!(await rateLimit(env, "forgot:" + ipOf(request), 5, 3600e3))) return err("Previše pokušaja. Pokušaj kasnije.", 429);
-      if (!env.RESEND_API_KEY) return err("Reset lozinke trenutno ne radi. Javi se na info.3dprinted@gmail.com ili Viber 061 060 784.", 503);
+      if (!env.RESEND_API_KEY) return err("Reset lozinke trenutno ne radi. Javi se na info.3dprinted@gmail.com.", 503);
       const email = str(body.email, 200).toLowerCase();
       const u = isEmail(email) ? await env.DB.prepare("SELECT id FROM users WHERE email=?").bind(email).first() : null;
       if (u) {

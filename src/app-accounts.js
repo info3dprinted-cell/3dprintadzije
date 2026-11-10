@@ -95,8 +95,8 @@ function viewReset(){
 
 /* ================= MOJ PROFIL ================= */
 let mojTab="profil",PF=null,EDIT=null;
-const ROLE_LBL={printer:"🖨️ Printam za druge",seller:"🛒 Prodajem plastiku, printere ili dijelove"};
-const SELL_LBL={filament:"🧵 Filament",resin:"🧪 Resin",oprema:"🖨️ Printeri i oprema",dijelovi:"🔩 Rezervni dijelovi"};
+const ROLE_LBL={printer:IC("printer")+"Printam za druge",seller:"🛒 Prodajem plastiku, printere ili dijelove"};
+const SELL_LBL={filament:IC("filament")+"Filament",resin:IC("resin")+"Resin",oprema:IC("printer")+"Printeri i oprema",dijelovi:IC("hotend")+"Rezervni dijelovi"};
 async function viewMoj(){
   await loadMe();
   if(!ME){location.hash="prijava";return}
@@ -131,10 +131,10 @@ function tabProfil(){
     <div class="g2"><div><label>Grad *</label><select id="pC">${opts(CITIES)}</select></div><div><label>Broj (Viber / WhatsApp) *</label><input id="pT" type="tel" value="${esc(F.telefon)}" placeholder="+387 6x xxx xxx"></div></div>
     <div class="g2"><div><label>Email na profilu</label><input id="pE" type="email" value="${esc(F.email)}"></div><div><label>Web / Instagram / Facebook</label><input id="pW" value="${esc(F.web)}" placeholder="npr. instagram.com/mojaradionica"></div></div>
     <label>Opis</label><textarea id="pO" placeholder="Šta radiš, rokovi, dostava…">${esc(F.opis)}</textarea></div>
-  ${isP?`<div class="card"><h2>🖨️ Printeri</h2><p class="sub" style="margin-bottom:8px">Dodirni modele koje imaš – radna ploha se upisuje sama.</p>
+  ${isP?`<div class="card"><h2>${IC("printer")} Printeri</h2><p class="sub" style="margin-bottom:8px">Dodirni modele koje imaš – radna ploha se upisuje sama.</p>
     <div class="chips">${Object.keys(PRINTERS).map(n=>`<button type="button" class="${F.printeri.includes(n)?"on":""}" onclick="pfKeep();const i=PF.printeri.indexOf('${n}');i<0?PF.printeri.push('${n}'):PF.printeri.splice(i,1);tabProfil()">${n}</button>`).join("")}</div>
     <label>Drugi printeri (odvoji zarezom)</label><input id="pD" value="${esc(F.drugi)}" placeholder="npr. Voron 2.4 350, Artillery Sidewinder X2"></div>
-  <div class="card"><h2>🧵 Plastika na stanju</h2><p class="sub" style="margin-bottom:8px">Ažuriraj kad se promijeni – po ovome te klijenti nalaze.</p>
+  <div class="card"><h2>${IC("filament")} Plastika na stanju</h2><p class="sub" style="margin-bottom:8px">Ažuriraj kad se promijeni – po ovome te klijenti nalaze.</p>
     ${F.plastika.map((s,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><select onchange="PF.plastika[${i}][0]=this.value">${Object.keys(MATS).map(m=>`<option ${m===s[0]?"selected":""}>${m}</option>`).join("")}</select>
       <select onchange="PF.plastika[${i}][1]=this.value">${Object.keys(COLORS).map(c=>`<option ${c===s[1]?"selected":""}>${c}</option>`).join("")}</select>
       <input type="number" min="0" step="100" value="${s[2]}" onchange="PF.plastika[${i}][2]=+this.value" style="max-width:96px" aria-label="grama"><button type="button" class="x" onclick="pfKeep();PF.plastika.splice(${i},1);tabProfil()" aria-label="Ukloni">×</button></div>`).join("")}
@@ -178,7 +178,7 @@ let AE=null;
 function adEditor(){const a=EDIT;if(!AE||AE._for!==(a.id||"new"))AE={_for:a.id||"new",kategorija:a.kategorija||"filament",naslov:a.naslov||"",cijena:a.cijena||"",stanje:a.stanje||"Novo",materijal:a.materijal||"",boja:a.boja||"",opis:a.opis||"",slike:[...(a.slike||[])],busy:0};
   const E=AE,mat=E.kategorija==="filament"||E.kategorija==="resin";
   $("mojBody").innerHTML=`<a class="back" href="#" onclick="EDIT=null;AE=null;viewMoj();return false">← Moji oglasi</a><div class="card"><h2>${a.id?"Uredi oglas":"Novi oglas"}</h2>
-  <label>Odjel *</label><select id="eCat">${Object.entries(CATS).map(([k,[i,n]])=>`<option value="${k}" ${k===E.kategorija?"selected":""}>${i} ${n}</option>`).join("")}</select>
+  <label>Odjel *</label><select id="eCat">${Object.entries(CATS).map(([k,[i,n]])=>`<option value="${k}" ${k===E.kategorija?"selected":""}>${n}</option>`).join("")}</select>
   <label>Naslov *</label><input id="eT" value="${esc(E.naslov)}" placeholder="npr. eSun PETG 1 kg – crna">
   <div class="g2"><div><label>Cijena *</label><input id="eP" value="${esc(E.cijena)}" placeholder="npr. 38 KM ili Po dogovoru"></div><div><label>Stanje</label><select id="eS"><option ${E.stanje==="Novo"?"selected":""}>Novo</option><option ${E.stanje==="Polovno"?"selected":""}>Polovno</option></select></div></div>
   ${mat?`<div class="g2"><div><label>Materijal</label><select id="eM">${opts(Object.keys(MATS).filter(m=>MATS[m][1]===(E.kategorija==="resin"?"SLA":"FDM")),"—")}</select></div><div><label>Boja</label><select id="eC">${opts(Object.keys(COLORS),"—")}</select></div></div>`:""}

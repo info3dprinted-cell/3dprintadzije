@@ -1,6 +1,6 @@
 # 3D Printadžije – 3dprintadzije.com
 
-Imenik 3D printadžija i oglasi za plastiku, printere i dijelove u BiH. Projekat obrta YUPA INŽENJERING, Sarajevo.
+Imenik 3D printadžija i oglasi za plastiku, printere i dijelove u BiH. Sarajevo, BiH.
 
 - `src/index.src.html` – izvor stranice; `./build.sh` pravi `index.html`
 - `data/printadzije.json` – objavljeni (provjereni) profili

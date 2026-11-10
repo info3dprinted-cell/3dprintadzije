@@ -8,7 +8,7 @@ const env = { DB: makeD1(), SLIKE: makeKV(), ASSETS: makeAssets(ROOT), ADMIN_EMA
 export const MAILS = [];
 globalThis.__realFetch = globalThis.fetch;
 globalThis.fetch = async (url, opts) => { if (String(url).includes("resend")) { MAILS.push(JSON.parse(opts.body)); fs.writeFileSync("/tmp/mails.json", JSON.stringify(MAILS)); return new Response("{}"); } return __realFetch(url, opts); };
-const types = { ".html": "text/html", ".js": "text/javascript", ".png": "image/png", ".json": "application/json", ".xml": "application/xml", ".txt": "text/plain" };
+const types = { ".html": "text/html", ".js": "text/javascript", ".png": "image/png", ".json": "application/json", ".xml": "application/xml", ".txt": "text/plain", ".svg": "image/svg+xml" };
 http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost:8790");
   const chunks = []; for await (const c of req) chunks.push(c);
